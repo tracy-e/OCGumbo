@@ -264,22 +264,22 @@ id OCGumboNodeCast(GumboNode *node) {
 
 - (OCGumboNode *)firstChild {
     GumboNode *node = oc_gumbo_get_firstchild(_gumboNode);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 - (OCGumboNode *)lastChild {
     GumboNode *node = oc_gumbo_get_lastchild(_gumboNode);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 - (OCGumboNode *)previousSibling {
     GumboNode *node = oc_gumbo_get_previoussibling(_gumboNode);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 - (OCGumboNode *)nextSibling {
     GumboNode *node = oc_gumbo_get_nextsibling(_gumboNode);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 @end
@@ -368,18 +368,18 @@ id OCGumboNodeCast(GumboNode *node) {
 
 - (OCGumboElement *)head {
     GumboNode *node = oc_gumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_HEAD);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 - (OCGumboElement *)body {
     GumboNode *node = oc_gumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_BODY);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 #pragma mark - Methods
 - (OCGumboElement *)getElementById:(NSString *)elementId {
     GumboNode *node = oc_gumbo_get_node_by_id(_gumboNode, [elementId UTF8String]);
-    return [OCGumboNode nodeWithGumboNode:node];
+    return OCGumboNodeCast(node);
 }
 
 - (NSArray *)getElementsByTagName:(NSString *)tagname {
