@@ -46,8 +46,6 @@ int main(int argc, const char * argv[])
         NSLog(@"body:%@", document.body.innerHTML);
         NSLog(@"getElementById:%@", [[document getElementById:@"select"] getAttributeNode:@"id"]);
         NSLog(@"getElementsByTagName:%@", [document getElementsByTagName:@"div"]);
-        
-        sleep(10);
     }
     return 0;
 }

@@ -14,7 +14,6 @@
 
 
 #import "OCGumbo.h"
-#import <objc/runtime.h>
 
 #pragma mark C Methods
 
@@ -354,8 +353,11 @@ id OCGumboNodeCast(GumboNode *node) {
 #pragma mark - Properties
 - (NSString *)title {
     GumboNode *node = ocgumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_TITLE);
-    if (node) {
-        return @(node->v.element.original_tag.data);
+    if (node && node->v.element.children.length) {
+        GumboNode *text = node->v.element.children.data[0];
+        if (text->type == GUMBO_NODE_TEXT) {
+            return @(text->v.text.text);
+        }
     }
     return nil;
 }
