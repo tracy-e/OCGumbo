@@ -43,7 +43,7 @@ int main(int argc, const char * argv[])
         
         NSLog(@"documentElement:%@", document.documentElement);
         NSLog(@"head:%@", document.head);
-        NSLog(@"body:%@", document.body.innerHTML);
+        NSLog(@"body:%@", document.body);
         NSLog(@"getElementById:%@", [[document getElementById:@"select"] getAttributeNode:@"id"]);
         NSLog(@"getElementsByTagName:%@", [document getElementsByTagName:@"div"]);
     }
