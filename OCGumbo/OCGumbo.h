@@ -61,6 +61,10 @@
 @property (nonatomic, copy, readonly) NSString *URL;
 @property (nonatomic, copy, readonly) NSString *title;
 
+@property (nonatomic, readonly) BOOL hasDoctype;
+@property (nonatomic, copy, readonly) NSString *publicID;
+@property (nonatomic, copy, readonly) NSString *systemID;
+
 @property (nonatomic, readonly) OCGumboElement *documentElement;
 @property (nonatomic, readonly) OCGumboElement *head;
 @property (nonatomic, readonly) OCGumboElement *body;

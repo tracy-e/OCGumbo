@@ -107,11 +107,11 @@ NS_INLINE GumboNode *oc_gumbo_get_nextsibling(GumboNode *node) {
 }
 
 NS_INLINE const char *oc_gumbo_get_text(GumboNode *node) {
-    
-    return nil;
+    //TODO:
+    return NULL;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_node_by_id(GumboNode *node, const char *Id) {
+NS_INLINE GumboNode *oc_gumbo_get_element_by_id(GumboNode *node, const char *Id) {
     GumboNode *root = NULL;
     if (node->type == GUMBO_NODE_DOCUMENT) {
         root = oc_gumbo_get_firstchild(node);
@@ -127,7 +127,7 @@ NS_INLINE GumboNode *oc_gumbo_get_node_by_id(GumboNode *node, const char *Id) {
             if (attributeValue && !strcasecmp(Id, attributeValue)) {
                 return child;
             } else {
-                GumboNode *node = oc_gumbo_get_node_by_id(child, Id);
+                GumboNode *node = oc_gumbo_get_element_by_id(child, Id);
                 if (node) {
                     return node;
                 }
@@ -138,7 +138,7 @@ NS_INLINE GumboNode *oc_gumbo_get_node_by_id(GumboNode *node, const char *Id) {
     return NULL;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_node_by_tag(GumboNode *node, GumboTag tag) {
+NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag tag) {
     GumboNode *root = NULL;
     if (node->type == GUMBO_NODE_DOCUMENT) {
         root = oc_gumbo_get_firstchild(node);
@@ -153,7 +153,7 @@ NS_INLINE GumboNode *oc_gumbo_get_node_by_tag(GumboNode *node, GumboTag tag) {
             if (oc_gumbo_get_tag(child) == tag) {
                 return child;
             } else {
-                GumboNode *node = oc_gumbo_get_node_by_tag(child, tag);
+                GumboNode *node = oc_gumbo_get_first_element_by_tag(child, tag);
                 if (node) {
                     return node;
                 }
@@ -352,7 +352,7 @@ id OCGumboNodeCast(GumboNode *node) {
 
 #pragma mark - Properties
 - (NSString *)title {
-    GumboNode *node = oc_gumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_TITLE);
+    GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_TITLE);
     if (node && node->v.element.children.length) {
         GumboNode *text = node->v.element.children.data[0];
         if (text->type == GUMBO_NODE_TEXT) {
@@ -362,23 +362,35 @@ id OCGumboNodeCast(GumboNode *node) {
     return nil;
 }
 
+- (BOOL)hasDoctype {
+    return _gumboNode->v.document.has_doctype;
+}
+
+- (NSString *)publicID {
+    return @(_gumboNode->v.document.public_identifier);
+}
+
+- (NSString *)systemID {
+    return @(_gumboNode->v.document.system_identifier);
+}
+
 - (OCGumboElement *)documentElement {
     return [OCGumboNode nodeWithGumboNode:_gumboOutput->root];
 }
 
 - (OCGumboElement *)head {
-    GumboNode *node = oc_gumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_HEAD);
+    GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_HEAD);
     return OCGumboNodeCast(node);
 }
 
 - (OCGumboElement *)body {
-    GumboNode *node = oc_gumbo_get_node_by_tag(_gumboNode, GUMBO_TAG_BODY);
+    GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_BODY);
     return OCGumboNodeCast(node);
 }
 
 #pragma mark - Methods
 - (OCGumboElement *)getElementById:(NSString *)elementId {
-    GumboNode *node = oc_gumbo_get_node_by_id(_gumboNode, [elementId UTF8String]);
+    GumboNode *node = oc_gumbo_get_element_by_id(_gumboNode, [elementId UTF8String]);
     return OCGumboNodeCast(node);
 }
 

@@ -37,6 +37,9 @@ int main(int argc, const char * argv[])
          " URL:@"http://esoftmobile.com"];
         
         NSLog(@"document:%@", document);
+        NSLog(@"has doctype: %d", document.hasDoctype);
+        NSLog(@"publicID: %@", document.publicID);
+        NSLog(@"systemID:%@", document.systemID);
         NSLog(@"URL:%@", document.URL);
         NSLog(@"title:%@", document.title);
         NSLog(@"childNodes:%@", document.body.childNodes);
