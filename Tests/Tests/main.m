@@ -34,17 +34,16 @@ int main(int argc, const char * argv[])
          <title>\
          hello \
          </title> </body>\
-         " URL:@"http://esoftmobile.com"];
+         "];
         
         NSLog(@"document:%@", document);
         NSLog(@"has doctype: %d", document.hasDoctype);
         NSLog(@"publicID: %@", document.publicID);
         NSLog(@"systemID:%@", document.systemID);
-        NSLog(@"URL:%@", document.URL);
         NSLog(@"title:%@", document.title);
         NSLog(@"childNodes:%@", document.body.childNodes);
         
-        NSLog(@"documentElement:%@", document.documentElement);
+        NSLog(@"documentElement:%@", document.rootElement);
         NSLog(@"head:%@", document.head);
         NSLog(@"body:%@", document.body);
         NSLog(@"getElementById:%@", [[document getElementById:@"select"] getAttributeNode:@"id"]);

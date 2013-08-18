@@ -6,11 +6,12 @@ OCGumbo is an Objective-C wrapper of the Google [Gumbo](https://github.com/googl
 Basic Usage
 ===========
 
-Within your program, you need to import "OCGumbo.h" and then use OCGumboDocument to parse an html string.
+ 1. Add [Gumbo](https://github.com/google/gumbo-parser/tree/master/src) sources or lib to your project.
+ 2. Add [OCGumbo](https://github.com/tracy-e/OCGumbo/tree/master/OCGumbo) file and import "OCGumbo.h", then use OCGumboDocument to parse an html string.
 
 ```objective-c
-OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString URL:@"http://esoftmobile.com"];
-OCGumboElement *root = document.documentElement;
-//do something with the document.
-//do something with the html tree.
+OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString];
+OCGumboElement *root = document.rootElement;
+//document: do something with the document.
+//rootElement: do something with the html tree.
 ```

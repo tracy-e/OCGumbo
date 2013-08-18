@@ -106,11 +106,6 @@ NS_INLINE GumboNode *oc_gumbo_get_nextsibling(GumboNode *node) {
     return NULL;
 }
 
-NS_INLINE const char *oc_gumbo_get_text(GumboNode *node) {
-    //TODO:
-    return NULL;
-}
-
 NS_INLINE GumboNode *oc_gumbo_get_element_by_id(GumboNode *node, const char *Id) {
     GumboNode *root = NULL;
     if (node->type == GUMBO_NODE_DOCUMENT) {
@@ -199,7 +194,6 @@ NS_INLINE NSArray *oc_gumbo_get_elements_by_tagname(GumboNode *node, const char 
     return self;
 }
 
-//TODO: When gumbo add the API for binding, this method is to update.
 + (id)nodeWithGumboNode:(GumboNode *)node {
     Class cls;
     if (node->type == GUMBO_NODE_DOCUMENT) {
@@ -291,15 +285,8 @@ id OCGumboNodeCast(GumboNode *node) {
     return self.nodeName;
 }
 
-//TODO: Didn't find the right API to do this。
-- (NSString *)innerHTML {
-    printf("[%s]\n",_gumboNode->v.element.original_end_tag.data);
-    return nil;
-}
-
-//TODO: Didn't find the right API to do this。
-- (NSString *)innerText {
-    return nil;
+- (GumboTag)tag {
+    return oc_gumbo_get_tag(_gumboNode);
 }
 
 - (NSArray *)attributes {
@@ -310,6 +297,10 @@ id OCGumboNodeCast(GumboNode *node) {
         [result addObject:OCGumboAttributeCast(attribute)];
     }
     return result;
+}
+
+- (BOOL)hasAttribute:(NSString *)name {
+    return gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]) != NULL;
 }
 
 - (OCGumboAttribute *)getAttributeNode:(NSString *)name {
@@ -340,10 +331,9 @@ id OCGumboNodeCast(GumboNode *node) {
     gumbo_destroy_output(&kGumboDefaultOptions, _gumboOutput);
 }
 
-- (instancetype)initWithHTMLString:(NSString *)htmlString URL:(NSString *)URL {
+- (instancetype)initWithHTMLString:(NSString *)htmlString {
     self = [super init];
     if (self) {
-        _URL = URL;
         _gumboOutput = gumbo_parse([htmlString UTF8String]);
         _gumboNode = _gumboOutput->document;
     }
@@ -374,7 +364,7 @@ id OCGumboNodeCast(GumboNode *node) {
     return @(_gumboNode->v.document.system_identifier);
 }
 
-- (OCGumboElement *)documentElement {
+- (OCGumboElement *)rootElement {
     return [OCGumboNode nodeWithGumboNode:_gumboOutput->root];
 }
 

@@ -12,11 +12,11 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-
 #if !__has_feature(objc_arc)
     #error OCGumbo must be built with ARC.
 #endif
 
+//please add gumbo(https://github.com/google/gumbo-parser/tree/master/src) sources or lib to the project.
 #include "gumbo.h"
 
 @interface OCGumboNode : NSObject {
@@ -40,11 +40,11 @@
 @interface OCGumboElement : OCGumboNode
 
 @property (nonatomic, copy, readonly) NSString *tagName;
-@property (nonatomic, copy, readonly) NSString *innerHTML;
-@property (nonatomic, copy, readonly) NSString *innerText;
+@property (nonatomic, readonly) GumboTag tag;
 
 @property (nonatomic, readonly) NSArray *attributes;
 
+- (BOOL)hasAttribute:(NSString *)name;
 - (NSString *)getAttribute:(NSString *)name;
 - (OCGumboAttribute *)getAttributeNode:(NSString *)name;
 
@@ -58,18 +58,17 @@
 
 @interface OCGumboDocument : OCGumboNode
 
-@property (nonatomic, copy, readonly) NSString *URL;
 @property (nonatomic, copy, readonly) NSString *title;
 
 @property (nonatomic, readonly) BOOL hasDoctype;
 @property (nonatomic, copy, readonly) NSString *publicID;
 @property (nonatomic, copy, readonly) NSString *systemID;
 
-@property (nonatomic, readonly) OCGumboElement *documentElement;
+@property (nonatomic, readonly) OCGumboElement *rootElement;
 @property (nonatomic, readonly) OCGumboElement *head;
 @property (nonatomic, readonly) OCGumboElement *body;
 
-- (instancetype)initWithHTMLString:(NSString *)htmlString URL:(NSString *)URL;
+- (instancetype)initWithHTMLString:(NSString *)htmlString;
 
 - (OCGumboElement *)getElementById:(NSString *)elementId;
 - (NSArray *)getElementsByTagName:(NSString *)tagname;
