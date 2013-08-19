@@ -247,13 +247,13 @@ id OCGumboNodeCast(GumboNode *node) {
     GumboVector children = oc_gumbo_get_children(_gumboNode);
     for (int i = 0; i < children.length; i++) {
         GumboNode *child = children.data[i];
-        [childNodes addObject:[OCGumboNode nodeWithGumboNode:child]];
+        [childNodes addObject:OCGumboNodeCast(child)];
     }
     return childNodes;
 }
 
 - (OCGumboNode *)parentNode {
-    return [OCGumboNode nodeWithGumboNode:_gumboNode->parent];
+    return OCGumboNodeCast(_gumboNode->parent);
 }
 
 - (OCGumboNode *)firstChild {
@@ -365,7 +365,7 @@ id OCGumboNodeCast(GumboNode *node) {
 }
 
 - (OCGumboElement *)rootElement {
-    return [OCGumboNode nodeWithGumboNode:_gumboOutput->root];
+    return OCGumboNodeCast(_gumboOutput->root);
 }
 
 - (OCGumboElement *)head {
