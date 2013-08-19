@@ -22,7 +22,8 @@ int main(int argc, const char * argv[])
     @autoreleasepool {
         OCGumboDocument *document =
         [[OCGumboDocument alloc] initWithHTMLString:
-         @"<body><select id=\"select\"> \
+         @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> \
+         <body><select id=\"select\"> \
             <option>A</option> \
             <option>B</option> \
             <option id='select'>C</option> \
