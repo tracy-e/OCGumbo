@@ -17,9 +17,9 @@ OCGumboElement *root = document.rootElement;
 ```
 
 Extension
-=========
+========
 
-OCGumbo new support JQuery liked query.
+Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoin it.
 
 ####Query APIs####
 
@@ -45,8 +45,10 @@ NSString *attributeValue = findNode.attr(@"attributeName");
 ```
 
 ```objective-c
-NSArray *options = document.Query(@"option");
+NSArray *options = element.Query(@"option");
 GumboElement *first = options.first();
-//...
+```
+
+```objective-c
 NSArray *array = element.find(@".clsname");
 ```
