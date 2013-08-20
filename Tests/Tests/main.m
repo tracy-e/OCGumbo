@@ -15,17 +15,19 @@
 
 #import <Foundation/Foundation.h>
 #import "OCGumbo.h"
+#import "OCGumbo+Query.h"
 
 int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
+                
         OCGumboDocument *document =
         [[OCGumboDocument alloc] initWithHTMLString:
          @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> \
-         <body><select id=\"select\"> \
-            <option>A</option> \
-            <option>B</option> \
+         <body id=\"testID\"><select id=\"select\"> \
+            <option class='abc efg'>A</option> \
+            <option class='abc'>B</option> \
             <option id='select'>C</option> \
           </select> \
          <p> <div> <div> hello <div> </div>\
@@ -34,8 +36,18 @@ int main(int argc, const char * argv[])
          <!-- comment --> \
          <title>\
          hello \
-         </title> </body>\
+         </title> <select id=\"select\"> \
+         <option class='abc efg'>A</option> \
+         <option class='abc'>B</option> \
+         <option id='select'>C</option> \
+         </select> \
+         </body>\
          "];
+    
+        NSLog(@"Query: %@", document.Query(@"#testID"));
+        
+        NSArray *elements = document.Query(@"body");
+        NSLog(@"%@", elements.find(@"option").parents(@"select"));
         
         NSLog(@"document:%@", document);
         NSLog(@"has doctype: %d", document.hasDoctype);
@@ -47,8 +59,7 @@ int main(int argc, const char * argv[])
         NSLog(@"documentElement:%@", document.rootElement);
         NSLog(@"head:%@", document.head);
         NSLog(@"body:%@", document.body);
-        NSLog(@"getElementById:%@", [[document getElementById:@"select"] getAttributeNode:@"id"]);
-        NSLog(@"getElementsByTagName:%@", [document getElementsByTagName:@"div"]);
+        
     }
     return 0;
 }

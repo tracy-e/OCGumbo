@@ -15,3 +15,22 @@ OCGumboElement *root = document.rootElement;
 //document: do something with the document.
 //rootElement: do something with the html tree.
 ```
+
+Extension
+=========
+
+OCGumbo new support JQuery liked query.
+
+examples:
+
+```objective-c
+OCGumboNode *findNode = document.Query(@"#someId");
+NSString *attributeValue = findNode.attr(@"attributeName");
+```
+
+```objective-c
+NSArray *options = document.Query(@"option");
+GumboElement *first = options.first();
+//...
+NSArray *array = element.find(@".clsname");
+```

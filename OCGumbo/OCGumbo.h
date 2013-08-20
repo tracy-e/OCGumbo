@@ -20,6 +20,7 @@
 #include "gumbo.h"
 
 @interface OCGumboNode : NSObject {
+  @public
     GumboNode *_gumboNode;
 }
 
@@ -70,9 +71,6 @@
 
 - (instancetype)initWithHTMLString:(NSString *)htmlString;
 
-- (OCGumboElement *)getElementById:(NSString *)elementId;
-- (NSArray *)getElementsByTagName:(NSString *)tagname;
-
 @end
 
 @interface OCGumboAttribute : NSObject
@@ -81,3 +79,6 @@
 @property (nonatomic, copy, readonly) NSString *value;
 
 @end
+
+id OCGumboNodeCast(GumboNode *node);
+id OCGumboAttributeCast(GumboAttribute *attribute);

@@ -22,6 +22,7 @@
 		B1318CFD17C06A21005C33F6 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = B1318CEF17C06A21005C33F6 /* utf8.c */; };
 		B1318CFE17C06A21005C33F6 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = B1318CF117C06A21005C33F6 /* util.c */; };
 		B1318CFF17C06A21005C33F6 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = B1318CF317C06A21005C33F6 /* vector.c */; };
+		B1DCD84417C3988F00239B90 /* OCGumbo+Query.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DCD84317C3988F00239B90 /* OCGumbo+Query.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +73,8 @@
 		B1318CF217C06A21005C33F6 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		B1318CF317C06A21005C33F6 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
 		B1318CF417C06A21005C33F6 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		B1DCD84217C3988F00239B90 /* OCGumbo+Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCGumbo+Query.h"; sourceTree = "<group>"; };
+		B1DCD84317C3988F00239B90 /* OCGumbo+Query.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCGumbo+Query.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 			children = (
 				B114974517BE515600F58298 /* OCGumbo.h */,
 				B114974617BE515600F58298 /* OCGumbo.m */,
+				B1DCD84217C3988F00239B90 /* OCGumbo+Query.h */,
+				B1DCD84317C3988F00239B90 /* OCGumbo+Query.m */,
 			);
 			name = OCGumbo;
 			path = ../../OCGumbo;
@@ -228,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B114974717BE515600F58298 /* OCGumbo.m in Sources */,
+				B1DCD84417C3988F00239B90 /* OCGumbo+Query.m in Sources */,
 				B1318CF617C06A21005C33F6 /* char_ref.c in Sources */,
 				B1318CF917C06A21005C33F6 /* string_buffer.c in Sources */,
 				B1318CFA17C06A21005C33F6 /* string_piece.c in Sources */,

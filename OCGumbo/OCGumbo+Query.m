@@ -1,0 +1,246 @@
+//  Copyright [2013] tracy.cpp@gmail.com (TracyYih)
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+
+#import "OCGumbo+Query.h"
+
+#pragma mark - C Methods
+NS_INLINE NSArray *oc_gumbo_find_children(GumboNode *root, NSString *selector, bool deep) {
+    NSMutableArray *result = [NSMutableArray array];
+    GumboVector children = kGumboEmptyVector;
+    if (root->type == GUMBO_NODE_DOCUMENT) {
+        children = root->v.document.children;
+    } else if (root->type == GUMBO_NODE_ELEMENT){
+        children = root->v.element.children;
+    }
+    for (int i = 0; i < children.length; i++) {
+        GumboNode *child = children.data[i];
+        if (selector && selector.length) {
+            if (child->type == GUMBO_NODE_ELEMENT) {
+                if ([selector hasPrefix:@"."]) {
+                    GumboAttribute *classAttribute = gumbo_get_attribute(&child->v.element.attributes, "class");
+                    if (classAttribute) {
+                        NSArray *selectors = [@(classAttribute->value) componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                        if ([selectors containsObject:[selector substringFromIndex:1]]) {
+                            [result addObject:OCGumboNodeCast(child)];
+                        }
+                    }
+                } else if ([selector hasPrefix:@"#"]) {
+                    GumboAttribute *idAttribute = gumbo_get_attribute(&child->v.element.attributes, "id");
+                    if (idAttribute) {
+                        const char *elementId = idAttribute->value;
+                        if (!strcasecmp(elementId, [[selector substringFromIndex:1] UTF8String])) {
+                            [result addObject:OCGumboNodeCast(child)];
+                        }
+                    }
+                } else {
+                    const char *tagname = gumbo_normalized_tagname(child->v.element.tag);
+                    if (!strcasecmp(tagname, [selector UTF8String])) {
+                        [result addObject:OCGumboNodeCast(child)];
+                    }
+                }
+                
+                if (deep) {
+                    NSArray *subList = oc_gumbo_find_children(child, selector, deep);
+                    if (subList && [subList count]) {
+                        [result addObjectsFromArray:subList];
+                    }
+                }
+            }
+        } else {
+            [result addObject:OCGumboNodeCast(child)];
+        }
+    }
+    return result;
+}
+
+NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BOOL deep) {
+    NSMutableArray *result = [NSMutableArray array];
+    
+    GumboNode *parent = node->parent;
+    while (parent) {
+        if (parent->type == GUMBO_NODE_ELEMENT) {
+            if ([selector hasPrefix:@"."]) {
+                GumboAttribute *classAttribute = gumbo_get_attribute(&parent->v.element.attributes, "class");
+                if (classAttribute) {
+                    NSArray *selectors = [@(classAttribute->value) componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    if ([selectors containsObject:[selector substringFromIndex:1]]) {
+                        [result addObject:OCGumboNodeCast(parent)];
+                    }
+                }
+            } else if ([selector hasPrefix:@"#"]) {
+                GumboAttribute *idAttribute = gumbo_get_attribute(&parent->v.element.attributes, "id");
+                if (idAttribute) {
+                    const char *elementId = idAttribute->value;
+                    if (!strcasecmp(elementId, [[selector substringFromIndex:1] UTF8String])) {
+                        [result addObject:OCGumboNodeCast(parent)];
+                    }
+                }
+            } else {
+                const char *tagname = gumbo_normalized_tagname(parent->v.element.tag);
+                if (!strcasecmp(tagname, [selector UTF8String])) {
+                    [result addObject:OCGumboNodeCast(parent)];
+                }
+            }
+            
+            if (deep) {
+                NSArray *subList = oc_gumbo_find_children(parent, selector, deep);
+                if (subList && [subList count]) {
+                    [result addObjectsFromArray:subList];
+                }
+            }
+        }
+        parent = parent->parent;
+    }
+    
+    return result;
+}
+
+@implementation OCGumboNode (Query)
+
+- (OCGumboQueryBlockOS)Query {
+    OCGumboQueryBlockOS block = ^ id (NSString *selector) {
+        NSArray *elements = oc_gumbo_find_children(self->_gumboNode, selector, true);
+        if ([selector hasPrefix:@"#"]) {
+            return elements.first();
+        }
+        return elements;
+    };
+    return block;
+}
+
+- (OCGumboQueryBlockSS)attr {
+    OCGumboQueryBlockSS block = ^ NSString *(NSString *name) {
+        if (self->_gumboNode->type == GUMBO_NODE_ELEMENT) {
+            GumboAttribute *attribute = gumbo_get_attribute(&self->_gumboNode->v.element.attributes, [name UTF8String]);
+            if (attribute) {
+                return @(attribute->value);
+            }
+        }
+        return nil;
+    };
+    return block;
+}
+
+@end
+
+
+@implementation NSArray (Query)
+
+- (NSArrayQueryBlockNV)first {
+    NSArrayQueryBlockNV block = ^ OCGumboNode *(void) {
+        if ([self count]) {
+            return self[0];
+        }
+        return nil;
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockNV)last {
+    NSArrayQueryBlockNV block = ^ OCGumboNode *(void) {
+        return [self lastObject];
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockNI)get {
+    NSArrayQueryBlockNI block = ^ OCGumboNode *(NSUInteger index) {
+        if (index < [self count]) {
+            return self[index];
+        }
+        return nil;
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockBS)hasClass {
+    NSArrayQueryBlockBS block = ^ BOOL (NSString *name) {
+       
+        return NO;
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockIN)index {
+    NSArrayQueryBlockIN block = ^ NSUInteger (OCGumboNode *child) {
+        return [self indexOfObject:child];
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockAS)find {
+    NSArrayQueryBlockAS block = ^ NSArray *(NSString *selector) {
+        NSMutableArray *result = [NSMutableArray array];
+        for (OCGumboNode *child in self) {
+            NSArray *nodes = oc_gumbo_find_children(child->_gumboNode, selector, true);
+            if (nodes && [nodes count]) {
+                [result addObjectsFromArray:nodes];
+            }
+        }
+        return result;
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockAS)children {
+    NSArrayQueryBlockAS block = ^ NSArray *(NSString *selector) {
+        NSMutableArray *result = [NSMutableArray array];
+        for (OCGumboNode *child in self) {
+            NSArray *nodes = oc_gumbo_find_children(child->_gumboNode, selector, false);
+            if (nodes && [nodes count]) {
+                [result addObjectsFromArray:nodes];
+            }
+        }
+        return result;
+    };
+    return block;
+}
+
+//TODO:
+- (NSArray *)_filterArray {
+    return self;
+}
+
+- (NSArrayQueryBlockAS)parent {
+    NSArrayQueryBlockAS block = ^ NSArray *(NSString *selector) {
+        NSMutableArray *result = [NSMutableArray array];
+        for (OCGumboNode *child in self) {
+            NSArray *nodes = oc_gumbo_find_parents(child->_gumboNode, selector, false);
+            if (nodes && [nodes count]) {
+                [result addObjectsFromArray:nodes];
+            }
+        }
+        return [result _filterArray];
+    };
+    return block;
+}
+
+- (NSArrayQueryBlockAS)parents {
+    NSArrayQueryBlockAS block = ^ NSArray *(NSString *selector) {
+        NSMutableArray *result = [NSMutableArray array];
+        for (OCGumboNode *child in self) {
+            NSArray *nodes = oc_gumbo_find_parents(child->_gumboNode, selector, true);
+            if (nodes && [nodes count]) {
+                [result addObjectsFromArray:nodes];
+            }
+        }
+        return [result _filterArray];
+    };
+    return block;
+}
+
+
+
+
+@end

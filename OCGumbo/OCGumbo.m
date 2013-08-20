@@ -21,9 +21,6 @@
     #define NS_INLINE static inline
 #endif
 
-static id OCGumboNodeCast(GumboNode *node);
-static id OCGumboAttributeCast(GumboAttribute *attribute);
-
 NS_INLINE GumboVector oc_gumbo_get_children(GumboNode *node) {
     if (node->type == GUMBO_NODE_DOCUMENT) {
         return node->v.document.children;
@@ -256,25 +253,25 @@ id OCGumboNodeCast(GumboNode *node) {
     return OCGumboNodeCast(_gumboNode->parent);
 }
 
-- (OCGumboNode *)firstChild {
-    GumboNode *node = oc_gumbo_get_firstchild(_gumboNode);
-    return OCGumboNodeCast(node);
-}
-
-- (OCGumboNode *)lastChild {
-    GumboNode *node = oc_gumbo_get_lastchild(_gumboNode);
-    return OCGumboNodeCast(node);
-}
-
-- (OCGumboNode *)previousSibling {
-    GumboNode *node = oc_gumbo_get_previoussibling(_gumboNode);
-    return OCGumboNodeCast(node);
-}
-
-- (OCGumboNode *)nextSibling {
-    GumboNode *node = oc_gumbo_get_nextsibling(_gumboNode);
-    return OCGumboNodeCast(node);
-}
+//- (OCGumboNode *)firstChild {
+//    GumboNode *node = oc_gumbo_get_firstchild(_gumboNode);
+//    return OCGumboNodeCast(node);
+//}
+//
+//- (OCGumboNode *)lastChild {
+//    GumboNode *node = oc_gumbo_get_lastchild(_gumboNode);
+//    return OCGumboNodeCast(node);
+//}
+//
+//- (OCGumboNode *)previousSibling {
+//    GumboNode *node = oc_gumbo_get_previoussibling(_gumboNode);
+//    return OCGumboNodeCast(node);
+//}
+//
+//- (OCGumboNode *)nextSibling {
+//    GumboNode *node = oc_gumbo_get_nextsibling(_gumboNode);
+//    return OCGumboNodeCast(node);
+//}
 
 @end
 
@@ -376,16 +373,6 @@ id OCGumboNodeCast(GumboNode *node) {
 - (OCGumboElement *)body {
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_BODY);
     return OCGumboNodeCast(node);
-}
-
-#pragma mark - Methods
-- (OCGumboElement *)getElementById:(NSString *)elementId {
-    GumboNode *node = oc_gumbo_get_element_by_id(_gumboNode, [elementId UTF8String]);
-    return OCGumboNodeCast(node);
-}
-
-- (NSArray *)getElementsByTagName:(NSString *)tagname {
-    return oc_gumbo_get_elements_by_tagname(_gumboNode, [tagname UTF8String]);
 }
 
 @end
