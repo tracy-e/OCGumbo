@@ -21,6 +21,8 @@ Extension
 
 OCGumbo new support JQuery liked query.
 
+####Query APIs####
+
 ```
 .Query();
 .attr();
@@ -35,7 +37,7 @@ OCGumbo new support JQuery liked query.
 .hasClass();
 ```
 
-examples:
+####Examples:####
 
 ```objective-c
 OCGumboNode *findNode = document.Query(@"#someId");
