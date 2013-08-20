@@ -21,6 +21,20 @@ Extension
 
 OCGumbo new support JQuery liked query.
 
+```
+.Query();
+.attr();
+.find();
+.children();
+.parent();
+.parents();
+.first();
+.last();
+.get();
+.index();
+.hasClass();
+```
+
 examples:
 
 ```objective-c
