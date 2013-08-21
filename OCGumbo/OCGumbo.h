@@ -30,10 +30,7 @@
 
 @property (nonatomic, readonly) NSArray *childNodes;
 @property (nonatomic, readonly) OCGumboNode *parentNode;
-@property (nonatomic, readonly) OCGumboNode *firstChild;
-@property (nonatomic, readonly) OCGumboNode *lastChild;
-@property (nonatomic, readonly) OCGumboNode *previousSibling;
-@property (nonatomic, readonly) OCGumboNode *nextSibling;
+
 
 @end
 

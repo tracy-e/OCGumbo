@@ -76,33 +76,6 @@ NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node) {
     return NULL;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_lastchild(GumboNode *node) {
-    GumboVector children = oc_gumbo_get_children(node);
-    int length = children.length;
-    if (length) {
-        return children.data[length - 1];
-    }
-    return NULL;
-}
-
-NS_INLINE GumboNode *oc_gumbo_get_previoussibling(GumboNode *node) {
-    GumboVector children = node->parent->v.element.children;
-    int index = gumbo_vector_index_of(&children, node);
-    if (index) {
-        return children.data[index - 1];
-    }
-    return NULL;
-}
-
-NS_INLINE GumboNode *oc_gumbo_get_nextsibling(GumboNode *node) {
-    GumboVector children = node->parent->v.element.children;
-    int index = gumbo_vector_index_of(&children, node);
-    if (index + 1 < children.length) {
-        return children.data[index + 1];
-    }
-    return NULL;
-}
-
 NS_INLINE GumboNode *oc_gumbo_get_element_by_id(GumboNode *node, const char *Id) {
     GumboNode *root = NULL;
     if (node->type == GUMBO_NODE_DOCUMENT) {
@@ -212,6 +185,13 @@ id OCGumboNodeCast(GumboNode *node) {
             self.nodeName ? self.nodeName : self.nodeValue];
 }
 
+- (BOOL)isEqual:(OCGumboNode *)object {
+    if (object && [object isKindOfClass:[OCGumboNode class]]) {
+        return _gumboNode == object->_gumboNode;
+    }
+    return NO;
+}
+
 #pragma mark - Properties
 - (NSString *)nodeName {
     if (_gumboNode->type == GUMBO_NODE_DOCUMENT) {
@@ -253,25 +233,6 @@ id OCGumboNodeCast(GumboNode *node) {
     return OCGumboNodeCast(_gumboNode->parent);
 }
 
-//- (OCGumboNode *)firstChild {
-//    GumboNode *node = oc_gumbo_get_firstchild(_gumboNode);
-//    return OCGumboNodeCast(node);
-//}
-//
-//- (OCGumboNode *)lastChild {
-//    GumboNode *node = oc_gumbo_get_lastchild(_gumboNode);
-//    return OCGumboNodeCast(node);
-//}
-//
-//- (OCGumboNode *)previousSibling {
-//    GumboNode *node = oc_gumbo_get_previoussibling(_gumboNode);
-//    return OCGumboNodeCast(node);
-//}
-//
-//- (OCGumboNode *)nextSibling {
-//    GumboNode *node = oc_gumbo_get_nextsibling(_gumboNode);
-//    return OCGumboNodeCast(node);
-//}
 
 @end
 

@@ -28,7 +28,7 @@ int main(int argc, const char * argv[])
          <body id=\"testID\"><select id=\"select\"> \
             <option class='abc efg'>A</option> \
             <option class='abc'>B</option> \
-            <option id='select'>C</option> \
+            <option >C</option> \
           </select> \
          <p> <div> <div> hello <div> </div>\
          <div> world </div> \
@@ -36,19 +36,16 @@ int main(int argc, const char * argv[])
          <!-- comment --> \
          <title>\
          hello \
-         </title> <select id=\"select\"> \
+         </title> <select> \
          <option class='abc efg'>A</option> \
          <option class='abc'>B</option> \
-         <option id='select'>C</option> \
+         <option>C</option> \
          </select> \
          </body>\
          "];
     
-        NSLog(@"Query: %@", document.Query(@"#testID"));
-        
-        NSArray *elements = document.Query(@"body");
-        NSLog(@"%@", elements.find(@"option").parents(@"select"));
-        
+        //Basic Usage:
+        NSLog(@"\n==================Basic Usage=====================");
         NSLog(@"document:%@", document);
         NSLog(@"has doctype: %d", document.hasDoctype);
         NSLog(@"publicID: %@", document.publicID);
@@ -59,7 +56,14 @@ int main(int argc, const char * argv[])
         NSLog(@"documentElement:%@", document.rootElement);
         NSLog(@"head:%@", document.head);
         NSLog(@"body:%@", document.body);
+
+        //Extension Query:
+        NSLog(@"\n\n===============Extension Query==================");
+        NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
         
+        NSLog(@"title: %@", document.Query(@"title").text());
+        
+        NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
     }
     return 0;
 }

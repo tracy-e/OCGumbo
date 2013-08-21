@@ -14,13 +14,15 @@
 
 #import "OCGumbo.h"
 
-typedef id              (^OCGumboQueryBlockOS) (NSString *);
+@class OCQueryObject;
+typedef OCQueryObject * (^OCGumboQueryBlockAS) (NSString *);
 typedef NSString *      (^OCGumboQueryBlockSS) (NSString *);
+typedef NSString *      (^OCGumboQueryBlockSV) (void);
 
 @interface OCGumboNode (Query)
 
 //node.Query(selector);
-@property (nonatomic, weak, readonly) OCGumboQueryBlockOS Query;
+@property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query;
 
 //element.attr(attributeName);
 @property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr;
@@ -32,10 +34,18 @@ typedef OCGumboNode *   (^NSArrayQueryBlockNV) (void);
 typedef OCGumboNode *   (^NSArrayQueryBlockNI) (NSUInteger);
 typedef BOOL            (^NSArrayQueryBlockBS) (NSString *);
 typedef NSUInteger      (^NSArrayQueryBlockIN) (OCGumboNode *);
-typedef NSArray *       (^NSArrayQueryBlockAS) (NSString *);
+typedef OCQueryObject * (^NSArrayQueryBlockAS) (NSString *);
+typedef NSString *      (^NSArrayQueryBlockSV) (void);
+
+@protocol OCQueryObject <NSObject>
 
 
-@interface NSArray (Query)
+
+@end
+@interface OCQueryObject : NSArray
+
+//nodelist.text();
+@property (nonatomic, weak, readonly) NSArrayQueryBlockSV text;
 
 //nodeList.first();
 @property (nonatomic, weak, readonly) NSArrayQueryBlockNV first;

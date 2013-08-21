@@ -24,6 +24,7 @@ OCGumbo new support JQuery liked query.
 ```
 .Query();
 .attr();
+.text();
 .find();
 .children();
 .parent();
@@ -38,13 +39,9 @@ OCGumbo new support JQuery liked query.
 examples:
 
 ```objective-c
-OCGumboNode *findNode = document.Query(@"#someId");
-NSString *attributeValue = findNode.attr(@"attributeName");
-```
-
-```objective-c
-NSArray *options = document.Query(@"option");
-GumboElement *first = options.first();
-//...
-NSArray *array = element.find(@".clsname");
+NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
+        
+NSLog(@"title: %@", document.Query(@"title").text());
+        
+NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
 ```
