@@ -24,28 +24,15 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 ####Query APIs####
 
 ```
-.Query();
-.attr();
-.text();
-.find();
-.children();
-.parent();
-.parents();
-.first();
-.last();
-.get();
-.index();
-.hasClass();
+.Query(); 
+.attr(); .text(); .find(); .children(); .parent(); .parents(); .first(); .last(); .get(); .index(); .hasClass();
 ```
 
 ####Examples:####
 
 ```objective-c
 NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
-        
 NSLog(@"title: %@", document.Query(@"title").text());
-        
 NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
-
 NSLog(@"class: %@", document.Query(@"#select").parents(@".main"));
 ```
