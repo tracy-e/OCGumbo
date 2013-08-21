@@ -106,6 +106,8 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     return result;
 }
 
+#pragma mark -
+
 @implementation OCGumboNode (Query)
 
 - (OCGumboQueryBlockAS)Query {
@@ -131,6 +133,8 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
 
 @end
 
+
+#pragma mark -
 
 @implementation NSArray (Query)
 

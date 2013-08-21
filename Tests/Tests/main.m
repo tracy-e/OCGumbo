@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
         OCGumboDocument *document =
         [[OCGumboDocument alloc] initWithHTMLString:
          @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> \
-         <body id=\"testID\"><select id=\"select\"> \
+         <body class='main' id=\"testID\"><select id=\"select\"> \
             <option class='abc efg'>A</option> \
             <option class='abc'>B</option> \
             <option >C</option> \
@@ -64,6 +64,8 @@ int main(int argc, const char * argv[])
         NSLog(@"title: %@", document.Query(@"title").text());
         
         NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
+        
+        NSLog(@"class: %@", document.Query(@"#select").parents(@".main"));
     }
     return 0;
 }

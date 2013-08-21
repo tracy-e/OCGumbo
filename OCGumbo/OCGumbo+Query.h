@@ -14,22 +14,28 @@
 
 #import "OCGumbo.h"
 
-@class OCQueryObject;
+@class  OCQueryObject;
 typedef OCQueryObject * (^OCGumboQueryBlockAS) (NSString *);
 typedef NSString *      (^OCGumboQueryBlockSS) (NSString *);
 typedef NSString *      (^OCGumboQueryBlockSV) (void);
 
 @interface OCGumboNode (Query)
 
-//node.Query(selector);
+/**
+ *	Query children elements from current node by selector.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector.
+ */
 @property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query;
 
-//element.attr(attributeName);
+/**
+ *	Get the attribute value of the element by attributeName.
+ *  @param attributeName (NSString *) the attribute name.
+ */
 @property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr;
 
 @end
 
-
+#pragma mark -
 typedef OCGumboNode *   (^NSArrayQueryBlockNV) (void);
 typedef OCGumboNode *   (^NSArrayQueryBlockNI) (NSUInteger);
 typedef BOOL            (^NSArrayQueryBlockBS) (NSString *);
@@ -37,42 +43,62 @@ typedef NSUInteger      (^NSArrayQueryBlockIN) (OCGumboNode *);
 typedef OCQueryObject * (^NSArrayQueryBlockAS) (NSString *);
 typedef NSString *      (^NSArrayQueryBlockSV) (void);
 
-@protocol OCQueryObject <NSObject>
-
-
-
-@end
 @interface OCQueryObject : NSArray
 
-//nodelist.text();
+/**
+ *	Get the combined text contents of the collection.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockSV text;
 
-//nodeList.first();
+/**
+ *  Get the first element of the current collection.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockNV first;
 
-//nodeList.last();
+/**
+ *	Get the last element of the current collection.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockNV last;
 
-//nodeList.get(2);
+/**
+ *	Get the element at index of the current collection.
+ *  @param index (NSUInteger) the index of the element.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockNI get;
 
-//nodeList.hasClass(name);
+/**
+ *  Check if any elements in the collection have the specified class.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockBS hasClass;
 
-//nodeList.index(node);
+/**
+ *  Get the position of an element.
+ *  @param element (OCGumboNode *)
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockIN index;
 
-//nodeList.find(selector);
+/**
+ *	Find elements that match the selector in the current collection.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS find;
 
-//nodeList.children(selector);
+/**
+ *  Get immediate children of each element in the current collection matching the selector.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS children;
 
-//nodeList.parent(selector);
+/**
+ *	Get immediate parents of each element in the collection matching the selector.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS parent;
 
-//nodeList.parents(selector);
+/**
+ *	Get all ancestors of each element in the collection matching the selector.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector.
+ */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS parents;
-
 
 @end

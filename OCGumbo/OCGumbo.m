@@ -153,7 +153,7 @@ NS_INLINE NSArray *oc_gumbo_get_elements_by_tagname(GumboNode *node, const char 
     return nodeList;
 }
 
-
+#pragma mark -
 @implementation OCGumboNode
 
 - (id)initWithGumboNode:(GumboNode *)node {
@@ -233,8 +233,8 @@ id OCGumboNodeCast(GumboNode *node) {
     return OCGumboNodeCast(_gumboNode->parent);
 }
 
-
 @end
+
 
 #pragma mark -
 @implementation OCGumboElement

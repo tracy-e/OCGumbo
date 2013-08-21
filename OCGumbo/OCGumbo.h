@@ -19,9 +19,14 @@
 //please add gumbo(https://github.com/google/gumbo-parser/tree/master/src) sources or lib to the project.
 #include "gumbo.h"
 
+//for OCGumbo+Query.
+id OCGumboNodeCast(GumboNode *node);
+id OCGumboAttributeCast(GumboAttribute *attribute);
+
+#pragma mark -
 @interface OCGumboNode : NSObject {
   @public
-    GumboNode *_gumboNode;
+    GumboNode *_gumboNode;  //public for OCGumbo+Query.
 }
 
 @property (nonatomic, copy, readonly) NSString *nodeName;
@@ -31,9 +36,9 @@
 @property (nonatomic, readonly) NSArray *childNodes;
 @property (nonatomic, readonly) OCGumboNode *parentNode;
 
-
 @end
 
+#pragma mark -
 @class OCGumboAttribute;
 @interface OCGumboElement : OCGumboNode
 
@@ -48,12 +53,14 @@
 
 @end
 
+#pragma mark -
 @interface OCGumboText : OCGumboNode
 
 @property (nonatomic, copy, readonly) NSString *data;
 
 @end
 
+#pragma mark -
 @interface OCGumboDocument : OCGumboNode
 
 @property (nonatomic, copy, readonly) NSString *title;
@@ -70,12 +77,10 @@
 
 @end
 
+#pragma mark -
 @interface OCGumboAttribute : NSObject
 
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *value;
 
 @end
-
-id OCGumboNodeCast(GumboNode *node);
-id OCGumboAttributeCast(GumboAttribute *attribute);

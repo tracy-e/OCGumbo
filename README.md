@@ -46,4 +46,6 @@ NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
 NSLog(@"title: %@", document.Query(@"title").text());
         
 NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
+
+NSLog(@"class: %@", document.Query(@"#select").parents(@".main"));
 ```
