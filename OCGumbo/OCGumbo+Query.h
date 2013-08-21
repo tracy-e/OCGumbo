@@ -33,6 +33,11 @@ typedef NSString *      (^OCGumboQueryBlockSV) (void);
  */
 @property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr;
 
+/**
+ *	Get the combined text contents of element.
+ */
+@property (nonatomic, weak, readonly) OCGumboQueryBlockSV text;
+
 @end
 
 #pragma mark -

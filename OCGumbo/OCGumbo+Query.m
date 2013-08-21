@@ -117,6 +117,22 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     return block;
 }
 
+- (OCGumboQueryBlockSV)text {
+    OCGumboQueryBlockSV block = ^ NSString *(void) {
+        NSMutableString *result = [NSMutableString string];
+        if (self.nodeType == GUMBO_NODE_DOCUMENT || self.nodeType == GUMBO_NODE_ELEMENT) {
+            NSString *text = self.Query(nil).text();
+            if (text && text.length) {
+                [result appendString:text];
+            }
+        } else if(self.nodeType == GUMBO_NODE_TEXT){
+            [result appendString:self.nodeValue];
+        }
+
+        return result;
+    };
+    return block;
+}
 
 - (OCGumboQueryBlockSS)attr {
     OCGumboQueryBlockSS block = ^ NSString *(NSString *name) {
