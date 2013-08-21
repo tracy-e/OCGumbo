@@ -17,9 +17,11 @@ OCGumboElement *root = document.rootElement;
 ```
 
 Extension
-=========
+========
 
-OCGumbo new support JQuery liked query.
+Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoin it.
+
+####Query APIs####
 
 ```
 .Query();
@@ -36,7 +38,7 @@ OCGumbo new support JQuery liked query.
 .hasClass();
 ```
 
-examples:
+####Examples:####
 
 ```objective-c
 NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
