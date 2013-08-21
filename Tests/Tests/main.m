@@ -14,7 +14,6 @@
 
 
 #import <Foundation/Foundation.h>
-#import "OCGumbo.h"
 #import "OCGumbo+Query.h"
 
 int main(int argc, const char * argv[])
@@ -70,7 +69,9 @@ int main(int argc, const char * argv[])
         
         //Fetching from the website:
         NSLog(@"\n\n===============iOS Feed Info==================");
-        NSString *iosfeedPage = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.iosfeed.com"] encoding:NSUTF8StringEncoding error:nil];
+        NSString *iosfeedPage = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.iosfeed.com"]
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:nil];
         if (iosfeedPage) {
             OCGumboDocument *iosfeedDoc = [[OCGumboDocument alloc] initWithHTMLString:iosfeedPage];
             OCGumboNode *content = iosfeedDoc.Query(@".row").first();
@@ -82,7 +83,7 @@ int main(int argc, const char * argv[])
                 OCGumboNode *link = row.Query(@"h2").find(@"small").children(@"a").first();
                 NSLog(@"from:[%@](%@)",link.text(), link.attr(@"href"));
                 
-                NSLog(@"by %@ \n\n", row.Query(@"p").children(@"a").get(1).text());
+                NSLog(@"by %@ \n", row.Query(@"p").children(@"a").get(1).text());
             }
         }
     }
