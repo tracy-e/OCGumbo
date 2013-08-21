@@ -19,7 +19,7 @@ OCGumboElement *root = document.rootElement;
 Extension
 ========
 
-Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoin it.
+Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 
 ####Query APIs####
 
