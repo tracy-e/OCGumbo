@@ -11,13 +11,14 @@ Basic Usage
 
 ####Objects####
 
-Class 				| Description
--|-
-OCGumboDocument		|  the root of a document tree
-OCGumboElement 		|  an element in an HTML document
-OCGumboText 		|  the textual content of an element
-OCGumboNode			|  a single node in the document tree
-OCGumboAttribute 	|  an attribute of an Element object
+<table>
+<tr><th>Class</th><th>Description</th></tr>
+<tr><td>OCGumboDocument</td><td>the root of a document tree</td></tr>
+<tr><td>OCGumboElement</td><td>an element in an HTML document</td></tr>
+<tr><td>OCGumboText</td><td>the textual content of an element</td></tr>
+<tr><td>OCGumboNode	</td><td>a single node in the document tree</td></tr>
+<tr><td>OCGumboAttribute</td><td>an attribute of an Element object</td></tr>
+</table>
 
 ```objective-c
 OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString];
@@ -33,20 +34,21 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 
 ####Query APIs####
 
-Method | Description
--|-
-.Query( )		| Query children elements from current node by selector
-.text( )		| Get the combined text contents of current object
-.attr( )		| Get the attribute value of the element by attributeName
-.find( )		| Find elements that match the selector in the current collection
-.children( )	| Get immediate children of each element in the current collection matching the selector
-.parent( )		| Get immediate parents of each element in the collection matching the selector
-.parents( )		| Get all ancestors of each element in the collection matching the selector
-.first( )		| Get the first element of the current collection
-.last( )		| Get the last element of the current collection
-.get ( )		| Get the element by index from current collection
-.index( )		| Get the position of an element in current collection
-.hasClass( )	| Check if any elements in the collection have the specified class
+<table>
+<tr><th width="100">Method</th><th>Description</th></tr>
+<tr><th>.Query( )</td><td>Query children elements from current node by selector</td></tr>
+<tr><th>.text( )</td><td>Get the combined text contents of current object</td></tr>
+<tr><th>.attr( )</td><td>Get the attribute value of the element by attributeName</td></tr>
+<tr><th>.find( )</td><td>Find elements that match the selector in the current collection</td></tr>
+<tr><th>.children( )</td><td>Get immediate children of each element in the current collection matching the selector</td></tr>
+<tr><th>.parent( )</td><td>Get immediate parents of each element in the collection matching the selector</td></tr>
+<tr><th>.parents( )</td><td>Get all ancestors of each element in the collection matching the selector</td></tr>
+<tr><th>.first( )</td><td>Get the first element of the current collection</td></tr>
+<tr><th>.last( )</td><td>Get the last element of the current collection</td></tr>
+<tr><th>.get ( )</td><td>Get the element by index from current collection</td></tr>
+<tr><th>.index( )</td><td>Get the position of an element in current collection</td></tr>
+<tr><th>.hasClass( )</td><td>Check if any elements in the collection have the specified class</td></tr>
+</table>
 
 ####Examples:####
 
