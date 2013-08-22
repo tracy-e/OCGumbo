@@ -47,11 +47,6 @@ Method | Description
 .get ( )		| Get the element by index from current collection
 .index( )		| Get the position of an element in current collection
 .hasClass( )	| Check if any elements in the collection have the specified class
-=======
-```
-.Query(); 
-.attr(); .text(); .find(); .children(); .parent(); .parents(); .first(); .last(); .get(); .index(); .hasClass();
-```
 
 ####Examples:####
 
@@ -63,8 +58,6 @@ NSLog(@"class: %@", document.Query(@"#select").parents(@".main"));
 NSLog(@"tag.class: %@", document.Query(@"div.theCls"));
 NSLog(@"tag#id : %@", document.Query(@"div#theId"));
 ```
-
-
 
 License
 =======
