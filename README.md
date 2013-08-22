@@ -20,6 +20,8 @@ Basic Usage
 <tr><td>OCGumboAttribute</td><td>an attribute of an Element object</td></tr>
 </table>
 
+####Examples:####
+
 ```objective-c
 OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString];
 OCGumboElement *root = document.rootElement;
