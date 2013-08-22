@@ -76,33 +76,6 @@ NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node) {
     return NULL;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_element_by_id(GumboNode *node, const char *Id) {
-    GumboNode *root = NULL;
-    if (node->type == GUMBO_NODE_DOCUMENT) {
-        root = oc_gumbo_get_firstchild(node);
-    } else {
-        root = node;
-    }
-    
-    int count = oc_gumbo_get_child_cout(root);
-    for (int i = 0; i < count; i++) {
-        GumboNode *child = oc_gumbo_get_child_at_index(root, i);
-        if (child->type == GUMBO_NODE_ELEMENT) {
-            const char *attributeValue = oc_gumbo_get_attribute(child, "id");
-            if (attributeValue && !strcasecmp(Id, attributeValue)) {
-                return child;
-            } else {
-                GumboNode *node = oc_gumbo_get_element_by_id(child, Id);
-                if (node) {
-                    return node;
-                }
-            }
-        }
-    }
-    
-    return NULL;
-}
-
 NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag tag) {
     GumboNode *root = NULL;
     if (node->type == GUMBO_NODE_DOCUMENT) {
@@ -128,30 +101,6 @@ NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag
     return NULL;
 }
 
-NS_INLINE NSArray *oc_gumbo_get_elements_by_tagname(GumboNode *node, const char *tagname) {
-    NSMutableArray *nodeList = [[NSMutableArray alloc] init];
-    GumboNode *root = NULL;
-    if (node->type == GUMBO_NODE_DOCUMENT) {
-        root = oc_gumbo_get_firstchild(node);
-    } else {
-        root = node;
-    }
-    
-    int count = oc_gumbo_get_child_cout(root);
-    for (int i = 0; i < count; i++) {
-        GumboNode *child = oc_gumbo_get_child_at_index(root, i);
-        if (child->type == GUMBO_NODE_ELEMENT) {
-            if (!strcasecmp(oc_gumbo_get_tagname(child), tagname)) {
-                [nodeList addObject:OCGumboNodeCast(child)];
-            }
-            NSArray *subNodeList = oc_gumbo_get_elements_by_tagname(child, tagname);
-            if ([subNodeList count]) {
-                [nodeList addObjectsFromArray:subNodeList];
-            }
-        }
-    }
-    return nodeList;
-}
 
 #pragma mark -
 @implementation OCGumboNode

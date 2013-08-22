@@ -15,6 +15,77 @@
 #import "OCGumbo+Query.h"
 
 #pragma mark - C Methods
+
+NS_INLINE const char *oc_gumbo_get_attribute(GumboNode *node, const char *name) {
+    if (node->type == GUMBO_NODE_ELEMENT) {
+        GumboVector attributes = node->v.element.attributes;
+        GumboAttribute *attribute = gumbo_get_attribute(&attributes, name);
+        if (attribute) {
+            return attribute->value;
+        }
+    }
+    return NULL;
+}
+
+NS_INLINE void add_valid_node_to_array(GumboNode *node, NSString *selector, NSMutableArray *__autoreleasing *array) {
+    //class selector (.clsname)
+    if ([selector hasPrefix:@"."]) {
+        GumboAttribute *classAttribute = gumbo_get_attribute(&node->v.element.attributes, "class");
+        if (classAttribute) {
+            NSArray *selectors = [@(classAttribute->value) componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if ([selectors containsObject:[selector substringFromIndex:1]]) {
+                [*array addObject:OCGumboNodeCast(node)];
+            }
+        }
+    }
+    
+    //id selector (#eleId)
+    else if ([selector hasPrefix:@"#"]) {
+        GumboAttribute *idAttribute = gumbo_get_attribute(&node->v.element.attributes, "id");
+        if (idAttribute) {
+            const char *elementId = idAttribute->value;
+            if (!strcasecmp(elementId, [[selector substringFromIndex:1] UTF8String])) {
+                [*array addObject:OCGumboNodeCast(node)];
+            }
+        }
+    }
+    
+    //tag selector (p | p.clsname | p#eleId)
+    else {
+        NSString *tag = nil;
+        NSUInteger classMark = [selector rangeOfString:@"."].location;
+        NSUInteger idMark = [selector rangeOfString:@"#"].location;
+        const char *tagname = gumbo_normalized_tagname(node->v.element.tag);
+        
+        if (classMark != NSNotFound) {
+            tag = [selector substringToIndex:classMark];
+            NSString *cls = [selector substringFromIndex:classMark + 1];
+            const char *attrValue = oc_gumbo_get_attribute(node, "class");
+            if (attrValue && !strcasecmp(tagname, [tag UTF8String])) {
+                NSString *clsValue = @(attrValue);
+                NSArray *values = [clsValue componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                if ([values containsObject:cls]) {
+                    [*array addObject:OCGumboNodeCast(node)];
+                }
+            }
+        } else if (idMark != NSNotFound) {
+            tag = [selector substringToIndex:idMark];
+            NSString *Id = [selector substringFromIndex:idMark + 1];
+            const char *attrValue = oc_gumbo_get_attribute(node, "id");
+            if (attrValue &&
+                !strcasecmp(tagname, [tag UTF8String]) &&
+                !strcasecmp(attrValue, [Id UTF8String])) {
+                [*array addObject:OCGumboNodeCast(node)];
+            }
+        } else {
+            tag = selector;
+            if (!strcasecmp(tagname, [tag UTF8String])) {
+                [*array addObject:OCGumboNodeCast(node)];
+            }
+        }
+    }
+}
+
 NS_INLINE NSArray *oc_gumbo_find_children(GumboNode *root, NSString *selector, bool deep) {
     NSMutableArray *result = [NSMutableArray array];
     GumboVector children = kGumboEmptyVector;
@@ -27,29 +98,7 @@ NS_INLINE NSArray *oc_gumbo_find_children(GumboNode *root, NSString *selector, b
         GumboNode *child = children.data[i];
         if (selector && selector.length) {
             if (child->type == GUMBO_NODE_ELEMENT) {
-                if ([selector hasPrefix:@"."]) {
-                    GumboAttribute *classAttribute = gumbo_get_attribute(&child->v.element.attributes, "class");
-                    if (classAttribute) {
-                        NSArray *selectors = [@(classAttribute->value) componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                        if ([selectors containsObject:[selector substringFromIndex:1]]) {
-                            [result addObject:OCGumboNodeCast(child)];
-                        }
-                    }
-                } else if ([selector hasPrefix:@"#"]) {
-                    GumboAttribute *idAttribute = gumbo_get_attribute(&child->v.element.attributes, "id");
-                    if (idAttribute) {
-                        const char *elementId = idAttribute->value;
-                        if (!strcasecmp(elementId, [[selector substringFromIndex:1] UTF8String])) {
-                            [result addObject:OCGumboNodeCast(child)];
-                        }
-                    }
-                } else {
-                    const char *tagname = gumbo_normalized_tagname(child->v.element.tag);
-                    if (!strcasecmp(tagname, [selector UTF8String])) {
-                        [result addObject:OCGumboNodeCast(child)];
-                    }
-                }
-                
+                 add_valid_node_to_array(child, selector, &result);
                 if (deep) {
                     NSArray *subList = oc_gumbo_find_children(child, selector, deep);
                     if (subList && [subList count]) {
@@ -70,29 +119,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     GumboNode *parent = node->parent;
     while (parent) {
         if (parent->type == GUMBO_NODE_ELEMENT) {
-            if ([selector hasPrefix:@"."]) {
-                GumboAttribute *classAttribute = gumbo_get_attribute(&parent->v.element.attributes, "class");
-                if (classAttribute) {
-                    NSArray *selectors = [@(classAttribute->value) componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                    if ([selectors containsObject:[selector substringFromIndex:1]]) {
-                        [result addObject:OCGumboNodeCast(parent)];
-                    }
-                }
-            } else if ([selector hasPrefix:@"#"]) {
-                GumboAttribute *idAttribute = gumbo_get_attribute(&parent->v.element.attributes, "id");
-                if (idAttribute) {
-                    const char *elementId = idAttribute->value;
-                    if (!strcasecmp(elementId, [[selector substringFromIndex:1] UTF8String])) {
-                        [result addObject:OCGumboNodeCast(parent)];
-                    }
-                }
-            } else {
-                const char *tagname = gumbo_normalized_tagname(parent->v.element.tag);
-                if (!strcasecmp(tagname, [selector UTF8String])) {
-                    [result addObject:OCGumboNodeCast(parent)];
-                }
-            }
-            
+            add_valid_node_to_array(parent, selector, &result);
             if (deep) {
                 NSArray *subList = oc_gumbo_find_children(parent, selector, deep);
                 if (subList && [subList count]) {
@@ -279,14 +306,6 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
         return (OCQueryObject *)[result _filterArray];
     };
     return block;
-}
-
-
-- (NSString *)description {
-    if ([self count] == 1) {
-        return [self[0] description];
-    }
-    return [super description];
 }
 
 @end

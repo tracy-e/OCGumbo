@@ -20,26 +20,29 @@ int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
-                
         OCGumboDocument *document =
         [[OCGumboDocument alloc] initWithHTMLString:
          @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> \
-         <body class='main' id=\"testID\"><select id=\"select\"> \
-            <option class='abc efg'>A</option> \
-            <option class='abc'>B</option> \
-            <option >C</option> \
-          </select> \
-         <p> <div> <div> hello <div> </div>\
-         <div> world </div> \
-         </p> \
-         <!-- comment --> \
-         <title>\
-         hello \
-         </title> <select> \
-         <option class='abc efg'>A</option> \
-         <option class='abc'>B</option> \
-         <option>C</option> \
-         </select> \
+         <head> \
+            <title>Hello OCGumbo</title> \
+         </head> \
+         <body class=\"main\" id=\"testID\"> \
+            <select id=\"select\"> \
+                <option class='abc efg'>A</option> \
+                <option id=\"select\" class='abc'>B</option> \
+                <option >C</option> \
+            </select> \
+            <div> \
+                <div id=\"theId\"> hello <div> \
+            </div>\
+            <div class=\"theCls\">world</div> \
+            <p>text in p</p>\
+            <!-- comment --> \
+            <select> \
+                <option class='abc efg'>A</option> \
+                <option class='abc'>B</option> \
+                <option>C</option> \
+            </select> \
          </body>\
          "];
     
@@ -51,7 +54,6 @@ int main(int argc, const char * argv[])
         NSLog(@"systemID:%@", document.systemID);
         NSLog(@"title:%@", document.title);
         NSLog(@"childNodes:%@", document.body.childNodes);
-        
         NSLog(@"documentElement:%@", document.rootElement);
         NSLog(@"head:%@", document.head);
         NSLog(@"body:%@", document.body);
@@ -59,13 +61,11 @@ int main(int argc, const char * argv[])
         //Extension Query:
         NSLog(@"\n\n===============Extension Query==================");
         NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
-        
         NSLog(@"title: %@", document.Query(@"title").text());
-        
         NSLog(@"attribute: %@", document.Query(@"select").first().attr(@"id"));
-        
         NSLog(@"class: %@", document.Query(@"#select").parents(@".main"));
-        
+        NSLog(@"tag.class: %@", document.Query(@"div.theCls"));
+        NSLog(@"tag#id : %@", document.Query(@"div#theId"));
         
         //Fetching from the website:
         NSLog(@"\n\n===============iOS Feed Info==================");
@@ -74,16 +74,13 @@ int main(int argc, const char * argv[])
                                                             error:nil];
         if (iosfeedPage) {
             OCGumboDocument *iosfeedDoc = [[OCGumboDocument alloc] initWithHTMLString:iosfeedPage];
-            OCGumboNode *content = iosfeedDoc.Query(@".row").first();
-            NSArray *rows = content.Query(@".media-body");
+            NSArray *rows = iosfeedDoc.body.Query(@"div.row").find(@"div.media-body");
             for (OCGumboNode *row in rows) {
                 OCGumboNode *title = row.Query(@"h2").children(@"a").first();
                 NSLog(@"title:[%@](%@)", title.text(), title.attr(@"href"));
-                
                 OCGumboNode *link = row.Query(@"h2").find(@"small").children(@"a").first();
                 NSLog(@"from:[%@](%@)",link.text(), link.attr(@"href"));
-                
-                NSLog(@"by %@ \n", row.Query(@"p").children(@"a").get(1).text());
+                NSLog(@"by %@ \n", row.Query(@"p.meta").children(@"a").get(1).text());
             }
         }
     }
