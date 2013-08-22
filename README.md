@@ -33,6 +33,7 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 
 ####Query APIs####
 
+<<<<<<< HEAD
 Method | Description
 -|-
 .Query( )		| Query children elements from current node by selector
@@ -47,6 +48,12 @@ Method | Description
 .get ( )		| Get the element by index from current collection
 .index( )		| Get the position of an element in current collection
 .hasClass( )	| Check if any elements in the collection have the specified class
+=======
+```
+.Query(); 
+.attr(); .text(); .find(); .children(); .parent(); .parents(); .first(); .last(); .get(); .index(); .hasClass();
+```
+>>>>>>> 499f480fb6fefa5cbb3716b792f3f45fb8606c20
 
 ####Examples:####
 
