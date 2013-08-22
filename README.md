@@ -20,7 +20,7 @@ Basic Usage
 <tr><td>OCGumboAttribute</td><td>an attribute of an Element object</td></tr>
 </table>
 
-####Examples:####
+####Examples####
 
 ```objective-c
 OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString];
@@ -38,21 +38,21 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 
 <table>
 <tr><th width="100">Method</th><th>Description</th></tr>
-<tr><th>.Query( )</td><td>Query children elements from current node by selector</td></tr>
-<tr><th>.text( )</td><td>Get the combined text contents of current object</td></tr>
-<tr><th>.attr( )</td><td>Get the attribute value of the element by attributeName</td></tr>
-<tr><th>.find( )</td><td>Find elements that match the selector in the current collection</td></tr>
-<tr><th>.children( )</td><td>Get immediate children of each element in the current collection matching the selector</td></tr>
-<tr><th>.parent( )</td><td>Get immediate parents of each element in the collection matching the selector</td></tr>
-<tr><th>.parents( )</td><td>Get all ancestors of each element in the collection matching the selector</td></tr>
-<tr><th>.first( )</td><td>Get the first element of the current collection</td></tr>
-<tr><th>.last( )</td><td>Get the last element of the current collection</td></tr>
-<tr><th>.get ( )</td><td>Get the element by index from current collection</td></tr>
-<tr><th>.index( )</td><td>Get the position of an element in current collection</td></tr>
-<tr><th>.hasClass( )</td><td>Check if any elements in the collection have the specified class</td></tr>
+<tr><th>.Query( )</th><td>Query children elements from current node by selector</td></tr>
+<tr><th>.text( )</th><td>Get the combined text contents of current object</td></tr>
+<tr><th>.attr( )</th><td>Get the attribute value of the element by attributeName</td></tr>
+<tr><th>.find( )</th><td>Find elements that match the selector in the current collection</td></tr>
+<tr><th>.children( )</th><td>Get immediate children of each element in the current collection matching the selector</td></tr>
+<tr><th>.parent( )</th><td>Get immediate parents of each element in the collection matching the selector</td></tr>
+<tr><th>.parents( )</th><td>Get all ancestors of each element in the collection matching the selector</td></tr>
+<tr><th>.first( )</th><td>Get the first element of the current collection</td></tr>
+<tr><th>.last( )</th><td>Get the last element of the current collection</td></tr>
+<tr><th>.get ( )</th><td>Get the element by index from current collection</td></tr>
+<tr><th>.index( )</th><td>Get the position of an element in current collection</td></tr>
+<tr><th>.hasClass( )</th><td>Check if any elements in the collection have the specified class</td></tr>
 </table>
 
-####Examples:####
+####Examples####
 
 ```objective-c
 NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
