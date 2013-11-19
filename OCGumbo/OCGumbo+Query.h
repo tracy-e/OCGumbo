@@ -40,6 +40,11 @@ typedef NSString *      (^OCGumboQueryBlockSV) (void);
  */
 @property (nonatomic, weak, readonly) OCGumboQueryBlockSV text;
 
+/**
+ *  Get the raw contents of element.
+ */
+@property (nonatomic, weak, readonly) OCGumboQueryBlockSV html;
+
 @end
 
 #pragma mark -
