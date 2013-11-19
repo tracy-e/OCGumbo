@@ -161,6 +161,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     return block;
 }
 
+//may be not a fully reliable implementation.
 - (OCGumboQueryBlockSV)html {
     OCGumboQueryBlockSV block = ^ NSString *(void) {
         if (self.nodeType == GUMBO_NODE_ELEMENT) {
