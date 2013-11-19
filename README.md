@@ -40,6 +40,7 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 <tr><th width="100">Method</th><th>Description</th></tr>
 <tr><td>.Query( )</td><td>Query children elements from current node by selector</td></tr>
 <tr><td>.text( )</td><td>Get the combined text contents of current object</td></tr>
+<tr><td>.html( )</td><td>Get the raw contents of current element</td></tr>
 <tr><td>.attr( )</td><td>Get the attribute value of the element by attributeName</td></tr>
 <tr><td>.find( )</td><td>Find elements that match the selector in the current collection</td></tr>
 <tr><td>.children( )</td><td>Get immediate children of each element in the current collection matching the selector</td></tr>
