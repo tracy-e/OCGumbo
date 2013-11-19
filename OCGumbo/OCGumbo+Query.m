@@ -161,6 +161,26 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     return block;
 }
 
+- (OCGumboQueryBlockSV)html {
+    OCGumboQueryBlockSV block = ^ NSString *(void) {
+        if (self.nodeType == GUMBO_NODE_ELEMENT) {
+            GumboElement *element = &self->_gumboNode->v.element;
+            NSString *result = @(element->original_tag.data);
+            NSString *originalEndTag = @(element->original_end_tag.data);
+            result = [result stringByReplacingCharactersInRange:NSMakeRange(result.length - originalEndTag.length, originalEndTag.length) withString:@""];
+            NSUInteger start = [result rangeOfString:@">"].location;
+            if (start != NSNotFound) {
+                result = [result substringFromIndex:start + 1];
+            }
+            return result;
+        } else {
+            return nil;
+        }
+    };
+    return block;
+}
+
+
 - (OCGumboQueryBlockSS)attr {
     OCGumboQueryBlockSS block = ^ NSString *(NSString *name) {
         if (self->_gumboNode->type == GUMBO_NODE_ELEMENT) {
