@@ -225,7 +225,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
         NSMutableArray *result = [NSMutableArray array];
         for (OCGumboNode *node in self) {
             if (node.nodeType == GUMBO_NODE_DOCUMENT || node.nodeType == GUMBO_NODE_ELEMENT) {
-                NSMutableArray *text = node.childNodes.textArray();
+                OCQueryObject *text = node.childNodes.textArray();
                 if (text && text.count) {
                     [result addObjectsFromArray:text];
                 }
