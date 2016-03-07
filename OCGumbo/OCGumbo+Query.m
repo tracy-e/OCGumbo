@@ -220,6 +220,24 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     return block;
 }
 
+- (NSArrayQueryBlockSA)textArray{
+    NSArrayQueryBlockSA block =  ^ OCQueryObject *(void){
+        NSMutableArray *result = [NSMutableArray array];
+        for (OCGumboNode *node in self) {
+            if (node.nodeType == GUMBO_NODE_DOCUMENT || node.nodeType == GUMBO_NODE_ELEMENT) {
+                OCQueryObject *text = node.childNodes.textArray();
+                if (text && text.count) {
+                    [result addObjectsFromArray:text];
+                }
+            } else if(node.nodeType == GUMBO_NODE_TEXT){
+                [result addObject:node.nodeValue];
+            }
+        }
+        return (OCQueryObject *)result;
+    };
+    return block;
+}
+
 - (NSArrayQueryBlockNV)first {
     NSArrayQueryBlockNV block = ^ OCGumboNode *(void) {
         if ([self count]) {
