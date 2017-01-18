@@ -77,13 +77,7 @@ NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node) {
 }
 
 NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag tag) {
-    GumboNode *root = NULL;
-    if (node->type == GUMBO_NODE_DOCUMENT) {
-        root = oc_gumbo_get_firstchild(node);
-    } else {
-        root = node;
-    }
-    
+    GumboNode *root = node;
     int count = oc_gumbo_get_child_cout(root);
     for (int i = 0; i < count; i++) {
         GumboNode *child = oc_gumbo_get_child_at_index(root, i);
