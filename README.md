@@ -9,7 +9,7 @@ Basic Usage
  1. Add [Gumbo](https://github.com/google/gumbo-parser/tree/master/src) sources or lib to your project.
  2. Add [OCGumbo](https://github.com/tracy-e/OCGumbo/tree/master/OCGumbo) file and import "OCGumbo.h", then use OCGumboDocument to parse an html string.
 
-####Objects####
+#### Objects
 
 <table>
 <tr><th>Class</th><th>Description</th></tr>
@@ -20,7 +20,7 @@ Basic Usage
 <tr><td>OCGumboAttribute</td><td>an attribute of an Element object</td></tr>
 </table>
 
-####Examples####
+#### Examples
 
 ```objective-c
 OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:htmlString];
@@ -34,7 +34,7 @@ Extension
 
 Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 
-####Query APIs####
+#### Query APIs
 
 <table>
 <tr><th width="100">Method</th><th>Description</th></tr>
@@ -54,7 +54,7 @@ Now, OCGumbo add more Query support, add "OCGumbo+Query.h" and enjoy it.
 <tr><td>.hasClass( )</td><td>Check if any elements in the collection have the specified class</td></tr>
 </table>
 
-####Examples####
+#### Examples
 
 ```objective-c
 NSLog(@"options: %@", document.Query(@"body").find(@"#select").find(@"option"));
@@ -77,3 +77,5 @@ License
 =======
 
 [Apache License](http://www.apache.org/licenses/)
+
+
