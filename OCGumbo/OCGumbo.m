@@ -209,7 +209,8 @@ id OCGumboNodeCast(GumboNode *node) {
 }
 
 - (NSString *)getAttribute:(NSString *)name {
-    return @(oc_gumbo_get_attribute(_gumboNode, [name UTF8String]));
+    const char *text = oc_gumbo_get_attribute(_gumboNode, [name UTF8String]);
+    return text ? @(text) : nil;
 }
 
 @end
