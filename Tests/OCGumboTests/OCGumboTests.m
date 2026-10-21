@@ -409,7 +409,7 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     XCTAssertEqual(_document.Query(@"select").children(@"option").count, 3);
 }
 
-- (void)testParentAndParentsMatchAncestors
+- (void)testParentMatchesAncestor
 {
     OCQueryObject *optionB = _document.Query(@"#optionB");
     XCTAssertEqual(optionB.count, 1);
@@ -417,7 +417,11 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     OCQueryObject *parent = optionB.parent(@"select");
     XCTAssertEqual(parent.count, 1);
     XCTAssertEqualObjects([FirstElement(parent) tagName], @"select");
+}
 
+- (void)testParentsMatchAncestors
+{
+    OCQueryObject *optionB = _document.Query(@"#optionB");
     OCQueryObject *ancestor = optionB.parents(@".main");
     XCTAssertEqual(ancestor.count, 1);
     XCTAssertEqualObjects([FirstElement(ancestor) tagName], @"body");
