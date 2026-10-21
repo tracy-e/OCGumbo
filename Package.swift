@@ -81,6 +81,14 @@ let package = Package(
             name: "OCGumboTests",
             dependencies: ["OCGumbo"],
             path: "Tests/OCGumboTests"
+        ),
+
+        // Swift overlay tests.  They exercise the Swift-only conveniences and
+        // basic parsing through the overlay's entry point.
+        .testTarget(
+            name: "OCGumboSwiftTests",
+            dependencies: ["OCGumboSwift"],
+            path: "Tests/OCGumboSwiftTests"
         )
     ]
 )
