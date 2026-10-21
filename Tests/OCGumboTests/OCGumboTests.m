@@ -353,9 +353,9 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     OCQueryObject *options = _document.Query(@"option");
     XCTAssertEqual(options.count, 3);
 
-    XCTAssertEqualObjects([(OCGumboNode *)options.first() text], @"A");
-    XCTAssertEqualObjects([(OCGumboNode *)options.last() text], @"C");
-    XCTAssertEqualObjects([(OCGumboNode *)options.get(1) text], @"B");
+    XCTAssertEqualObjects(((OCGumboNode *)options.first()).text(), @"A");
+    XCTAssertEqualObjects(((OCGumboNode *)options.last()).text(), @"C");
+    XCTAssertEqualObjects(((OCGumboNode *)options.get(1)).text(), @"B");
     XCTAssertNil(options.get(3));
 
     XCTAssertEqual(options.index(options.get(2)), 2);
@@ -394,7 +394,7 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
 {
     OCQueryObject *result = _document.Query(@"body").find(@"option");
     XCTAssertEqual(result.count, 3);
-    XCTAssertEqualObjects([(OCGumboNode *)result.last() text], @"C");
+    XCTAssertEqualObjects(((OCGumboNode *)result.last()).text(), @"C");
 }
 
 - (void)testChildrenMatchesDirectChildrenOfEachNode
