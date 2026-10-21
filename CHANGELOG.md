@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-21
+
 ### Added
 
 - `.clang-format` configuration (WebKit-derived Objective-C style, 4-space
@@ -19,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - XCTest suite in `Tests/OCGumboTests` covering document parsing, root/head/body
   elements, text content, attributes, child nodes and the query API.
 - GitHub Actions workflow that builds and tests the package with SwiftPM on
-  macOS, checking out submodules recursively.
+  macOS using a plain checkout.
 - `OCGumbo.podspec` (1.1.0) so the library can be installed with CocoaPods.
 - `CHANGELOG.md` and `CONTRIBUTING.md`.
 - First-class Swift support (packaging, annotations and overlay):
@@ -44,6 +46,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Track the unchanged Gumbo snapshot (`1fbc93bdf97dde6b07b67abb29a71d779f533dd8`)
+  directly instead of as a submodule, retaining its license and upstream files.
+  Remote SwiftPM dependencies now include all parser sources automatically.
+- CocoaPods resolves the release from the `v1.1.0` tag.
 - Rewrote `README.md` with badges, a feature summary, installation instructions
   for Swift Package Manager, CocoaPods and manual integration, Objective-C and
   Swift usage examples, and links to the contributing guide and license.
@@ -55,18 +61,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Nothing yet.
-
-## [1.1.0] - 2026-10-21
-
-First tagged release since 1.0. It contains no public API changes; the work is
-project maintenance and packaging:
-
-- Formatting and documentation cleanup of the public headers and sources.
-- Swift Package Manager support, including the `CGumbo` C target.
-- XCTest coverage for parsing and the query API.
-- Continuous integration on GitHub Actions.
-- CocoaPods support and a rewritten README.
+- `getAttributeNode:` now returns `nil` for missing attributes instead of
+  wrapping a null Gumbo attribute pointer.
+- `parent()` and `parents()` no longer crash on macOS: query results use real
+  `OCQueryObject` arrays to avoid Foundation's private `parent` selector.
+- `parent()` checks only the immediate parent; `parents()` walks only the
+  ancestor chain, nearest first, without searching siblings or descendants.
+- Restored the attribute and parent traversal regression tests and added
+  Objective-C and Swift coverage for missing attributes, ancestor filtering,
+  deduplication, root/empty queries and chained query results.
 
 ## [1.0.0] - 2013-08-16
 
@@ -74,6 +77,6 @@ Initial public release: an Objective-C wrapper around Google's Gumbo HTML5
 parser, with the `OCGumboNode`, `OCGumboElement`, `OCGumboText`,
 `OCGumboDocument` and `OCGumboAttribute` object model.
 
-[Unreleased]: https://github.com/tracy-e/OCGumbo/compare/1.1.0...HEAD
-[1.1.0]: https://github.com/tracy-e/OCGumbo/releases/tag/1.1.0
+[Unreleased]: https://github.com/tracy-e/OCGumbo/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/tracy-e/OCGumbo/releases/tag/v1.1.0
 [1.0.0]: https://github.com/tracy-e/OCGumbo/releases/tag/1.0

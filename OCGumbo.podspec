@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
   spec.authors = { 'Tracy Yih' => 'tracy.cpp@gmail.com' }
   spec.source = {
     :git => 'https://github.com/tracy-e/OCGumbo.git',
-    :tag => spec.version.to_s
+    :tag => "v#{spec.version}"
   }
   spec.documentation_url = 'https://github.com/tracy-e/OCGumbo/blob/master/README.md'
 
