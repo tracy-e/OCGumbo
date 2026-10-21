@@ -126,12 +126,9 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
     while (parent) {
         if (parent->type == GUMBO_NODE_ELEMENT) {
             add_valid_node_to_array(parent, selector, &result);
-            if (deep) {
-                NSArray *subList = oc_gumbo_find_children(parent, selector, deep);
-                if (subList && [subList count]) {
-                    [result addObjectsFromArray:subList];
-                }
-            }
+        }
+        if (!deep) {
+            break;
         }
         parent = parent->parent;
     }
@@ -146,7 +143,8 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
 - (OCGumboQueryBlockAS)Query
 {
     OCGumboQueryBlockAS block = ^id(NSString *selector) {
-        return oc_gumbo_find_children(self->_gumboNode, selector, true);
+        return [[OCQueryObject alloc]
+            initWithArray:oc_gumbo_find_children(self->_gumboNode, selector, true)];
     };
     return block;
 }
@@ -246,7 +244,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
                 [result addObject:node.nodeValue];
             }
         }
-        return (OCQueryObject *)result;
+        return [[OCQueryObject alloc] initWithArray:result];
     };
     return block;
 }
@@ -307,7 +305,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
                 [result addObjectsFromArray:nodes];
             }
         }
-        return (OCQueryObject *)result;
+        return [[OCQueryObject alloc] initWithArray:result];
     };
     return block;
 }
@@ -322,7 +320,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
                 [result addObjectsFromArray:nodes];
             }
         }
-        return (OCQueryObject *)result;
+        return [[OCQueryObject alloc] initWithArray:result];
     };
     return block;
 }
@@ -348,7 +346,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
                 [result addObjectsFromArray:nodes];
             }
         }
-        return (OCQueryObject *)[result _filterArray];
+        return [[OCQueryObject alloc] initWithArray:[result _filterArray]];
     };
     return block;
 }
@@ -363,7 +361,7 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
                 [result addObjectsFromArray:nodes];
             }
         }
-        return (OCQueryObject *)[result _filterArray];
+        return [[OCQueryObject alloc] initWithArray:[result _filterArray]];
     };
     return block;
 }
@@ -372,8 +370,41 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
 
 #pragma mark - OCQueryObject
 
-// OCQueryObject is only a typed name for the NSArray instances returned by the
-// query API (it has never been instantiated directly).  An empty implementation
-// gives the class a runtime symbol so Swift can reference its metadata.
-@implementation OCQueryObject
+// A real array subclass keeps query helpers clear of private selectors on
+// Foundation's concrete arrays (notably -[__NSArrayM parent] on macOS).
+@implementation OCQueryObject {
+    NSArray *_objects;
+}
+
+// Query blocks are implemented by the NSArray category above.
+@dynamic text, textArray, first, last, get, hasClass, index, find, children, parent, parents;
+
+- (instancetype)initWithObjects:(const id[])objects count:(NSUInteger)count
+{
+    self = [super init];
+    if (self) {
+        _objects = [[NSArray alloc] initWithObjects:objects count:count];
+    }
+    return self;
+}
+
+- (instancetype)initWithArray:(NSArray *)array
+{
+    self = [super init];
+    if (self) {
+        _objects = [array copy];
+    }
+    return self;
+}
+
+- (NSUInteger)count
+{
+    return _objects.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)index
+{
+    return [_objects objectAtIndex:index];
+}
+
 @end

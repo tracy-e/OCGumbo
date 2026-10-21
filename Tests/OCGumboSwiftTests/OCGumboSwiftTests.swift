@@ -86,6 +86,21 @@ final class OCGumboSwiftTests: XCTestCase {
         XCTAssertEqual(document.query!("p").firstNode!()?.innerHTML!(), "text in p")
     }
 
+    func testMissingAttributeNode() {
+        XCTAssertNil(document.body!.attributeNode(named: "missing"))
+        XCTAssertNil(document.firstElement(matching: "p")!.attributeNode(named: "id"))
+    }
+
+    func testParentQueries() {
+        let option = document.query!("#optionB")
+        XCTAssertEqual(option.parent!("select").elements.map(\.tagName), ["select"])
+        XCTAssertTrue(option.parent!("body").nodes.isEmpty)
+        XCTAssertEqual(option.parents!(".main").elements.map(\.tagName), ["body"])
+        XCTAssertTrue(option.parents!("option").nodes.isEmpty)
+        XCTAssertTrue(option.parents!(".alpha").nodes.isEmpty)
+        XCTAssertEqual(document.query!("option").parents!("body").count, 1)
+    }
+
     // MARK: - Sequence / Collection conformance
 
     func testNodeIsACollectionOfItsChildren() {

@@ -220,8 +220,8 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     XCTAssertNotNil(attribute);
     XCTAssertEqualObjects(attribute.name, @"data-role");
     XCTAssertEqualObjects(attribute.value, @"hero");
-    // Note: getAttributeNode: with a missing name currently wraps a NULL
-    // attribute and crashes on access (pre-existing behavior), so it is not tested here.
+    XCTAssertNil([div getAttributeNode:@"missing"]);
+    XCTAssertEqualObjects([div getAttributeNode:@"DATA-ROLE"].value, @"hero");
 }
 
 - (void)testEmptyAttributes
@@ -230,6 +230,7 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     XCTAssertEqual(paragraph.attributes.count, 0);
     XCTAssertFalse([paragraph hasAttribute:@"id"]);
     XCTAssertNil([paragraph getAttribute:@"id"]);
+    XCTAssertNil([paragraph getAttributeNode:@"id"]);
 }
 
 - (void)testAttributeQueryBlock
@@ -409,8 +410,77 @@ static NSString *AttributeValue(OCGumboElement *element, NSString *name)
     XCTAssertEqual(_document.Query(@"select").children(@"option").count, 3);
 }
 
-// parent()/parents() currently crash on macOS (pre-existing bug, tracked
-// separately), so they are intentionally not exercised here.
+- (void)testParentMatchesAncestor
+{
+    OCQueryObject *optionB = _document.Query(@"#optionB");
+    XCTAssertEqual(optionB.count, 1);
+
+    OCQueryObject *parent = optionB.parent(@"select");
+    XCTAssertEqual(parent.count, 1);
+    XCTAssertEqualObjects([FirstElement(parent) tagName], @"select");
+}
+
+- (void)testParentsMatchAncestors
+{
+    OCQueryObject *optionB = _document.Query(@"#optionB");
+    OCQueryObject *ancestor = optionB.parents(@".main");
+    XCTAssertEqual(ancestor.count, 1);
+    XCTAssertEqualObjects([FirstElement(ancestor) tagName], @"body");
+
+    XCTAssertEqual(optionB.parents(@"html").count, 1);
+    XCTAssertEqual(optionB.parents(@"select").count, 1);
+}
+
+- (void)testParentOnlyMatchesDirectParent
+{
+    XCTAssertEqual(_document.Query(@"#optionB").parent(@"body").count, 0);
+    XCTAssertEqual(_document.Query(@"#optionB").parent(@".main").count, 0);
+}
+
+- (void)testParentsExcludeSiblingsDescendantsAndSelf
+{
+    OCQueryObject *optionB = _document.Query(@"#optionB");
+    XCTAssertEqual(optionB.parents(@"option").count, 0);
+    XCTAssertEqual(optionB.parents(@".alpha").count, 0);
+    XCTAssertEqual(optionB.parents(@"p").count, 0);
+    XCTAssertEqual(optionB.parents(@".missing").count, 0);
+}
+
+- (void)testParentQueriesDeduplicateSharedAncestors
+{
+    XCTAssertEqual(_document.Query(@"option").parent(@"select").count, 1);
+    XCTAssertEqual(_document.Query(@"option").parents(@"body").count, 1);
+}
+
+- (void)testParentQueriesAtRootAndOnEmptyResults
+{
+    XCTAssertEqual(_document.Query(@"html").parent(@"html").count, 0);
+    XCTAssertEqual(_document.Query(@"html").parents(@"html").count, 0);
+    XCTAssertEqual(_document.Query(@"table").parent(@"body").count, 0);
+    XCTAssertEqual(_document.Query(@"table").parents(@"body").count, 0);
+}
+
+- (void)testChainedParentQueriesAndArrayOperations
+{
+    OCQueryObject *options = _document.Query(@"body").find(@"option");
+    XCTAssertEqualObjects([options copy], options);
+    XCTAssertEqualObjects(options[1], _document.Query(@"#optionB").first());
+    XCTAssertEqualObjects(options.parent(@"select").parent(@"body").first(), _document.body);
+    XCTAssertEqual(_document.Query(@"select").children(@"option").parents(@"html").count, 1);
+    XCTAssertEqual(options.parents(@"select").parents(@"body").count, 1);
+    XCTAssertEqualObjects(_document.Query(@"select").textArray().first(), @"A");
+}
+
+- (void)testParentsReturnAncestorsNearestFirst
+{
+    OCGumboDocument *document = [[OCGumboDocument alloc]
+        initWithHTMLString:@"<body class=ancestor><div class=ancestor><span>x</span></div></body>"];
+    OCQueryObject *ancestors = document.Query(@"span").parents(@".ancestor");
+    XCTAssertEqual(ancestors.count, 2);
+    XCTAssertEqualObjects([FirstElement(ancestors) tagName], @"div");
+    XCTAssertEqualObjects([(OCGumboElement *)ancestors.last() tagName], @"body");
+}
+
 - (void)testHTML
 {
     XCTAssertEqualObjects(_document.Query(@"p").first().html(), @"text in p");

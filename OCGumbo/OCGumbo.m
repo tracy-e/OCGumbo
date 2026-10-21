@@ -227,8 +227,9 @@ id OCGumboNodeCast(GumboNode *node)
 
 - (OCGumboAttribute *)getAttributeNode:(NSString *)name
 {
-    return OCGumboAttributeCast(
-        gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]));
+    GumboAttribute *attribute
+        = gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]);
+    return attribute ? OCGumboAttributeCast(attribute) : nil;
 }
 
 - (NSString *)getAttribute:(NSString *)name
