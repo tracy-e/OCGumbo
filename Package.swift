@@ -3,8 +3,8 @@
 // Package.swift
 // OCGumbo
 //
-// Swift Package Manager manifest for OCGumbo, an Objective-C wrapper around
-// Google's Gumbo HTML5 parser.
+// Swift Package Manager manifest for OCGumbo, an HTML5 parser for Swift and
+// Objective-C, built on Google's Gumbo.
 //
 // Gumbo itself is vendored, unmodified, as the OCGumbo/gumbo git submodule.
 

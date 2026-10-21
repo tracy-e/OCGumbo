@@ -1,14 +1,17 @@
 # OCGumbo
 
+> An HTML5 parser for Swift and Objective-C, built on Google Gumbo.
+
 [![CI](https://github.com/tracy-e/OCGumbo/actions/workflows/ci.yml/badge.svg)](https://github.com/tracy-e/OCGumbo/actions/workflows/ci.yml)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](#swift-package-manager)
 [![CocoaPods](https://img.shields.io/badge/CocoaPods-compatible-brightgreen.svg)](#cocoapods)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-OCGumbo is an Objective-C wrapper around Google's [Gumbo](https://github.com/google/gumbo-parser),
+OCGumbo is an HTML5 parser for Swift and Objective-C, built on Google's [Gumbo](https://github.com/google/gumbo-parser),
 a pure-C implementation of the HTML5 parsing algorithm. Gumbo repairs malformed
 markup exactly like a browser does and returns a full parse tree; OCGumbo exposes
-that tree as ordinary Foundation objects and adds a small, chainable query API.
+that tree as ordinary Foundation objects with a chainable query API, plus an
+idiomatic Swift overlay (`OCGumboSwift`).
 
 ## Features
 
@@ -109,44 +112,6 @@ Then run `pod install`.
 
 ## Usage
 
-### Objective-C
-
-```objective-c
-#import "OCGumbo+Query.h"
-
-NSString *html = @"<html><body>"
-                 @"<h1 id=\"heading\">Hello</h1>"
-                 @"<p class=\"lead\">World</p>"
-                 @"<a href=\"https://example.com\">link</a>"
-                 @"</body></html>";
-
-OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:html];
-
-// Structural access.
-OCGumboElement *root = document.rootElement;   // the <html> element
-OCGumboElement *head = document.head;
-OCGumboElement *body = document.body;
-NSLog(@"title: %@", document.title);
-NSLog(@"root tag: %@ (%@)", root.tagName, [root getAttribute:@"lang"]);
-
-// Attributes and children.
-OCGumboElement *heading = document.Query(@"h1").first();
-NSLog(@"heading id: %@", [heading getAttribute:@"id"]);
-NSLog(@"body children: %@", body.childNodes);
-
-// CSS-like queries.
-NSLog(@"paragraphs: %@", document.Query(@"p").text());          // World
-NSLog(@"by class: %@", document.Query(@".lead").text());        // World
-NSLog(@"by tag+class: %@", document.Query(@"p.lead").text());   // World
-NSLog(@"by id: %@", document.Query(@"#heading").text());        // Hello
-NSLog(@"links: %@", document.Query(@"a").first().attr(@"href"));
-
-// Traversal.
-NSLog(@"within body: %@", document.Query(@"body").find(@"a").text());
-NSLog(@"direct children: %@", document.Query(@"body").children(@"p").text());
-NSLog(@"ancestors: %@", document.Query(@".lead").parents(@"body").count);
-```
-
 ### Swift
 
 Import `OCGumboSwift` to get the Objective-C API plus the Swift overlay:
@@ -223,6 +188,44 @@ Importing `OCGumboSwift` re-exports the Objective-C module, so the whole
 > blocks to the Swift names used above (`init(html:)`, `attribute(named:)`,
 > `query`, `attributeValue`, `innerHTML`, `firstNode`, `lastNode`,
 > `nodeAtIndex`, `indexOf`) without renaming anything in Objective-C.
+
+### Objective-C
+
+```objective-c
+#import "OCGumbo+Query.h"
+
+NSString *html = @"<html><body>"
+                 @"<h1 id=\"heading\">Hello</h1>"
+                 @"<p class=\"lead\">World</p>"
+                 @"<a href=\"https://example.com\">link</a>"
+                 @"</body></html>";
+
+OCGumboDocument *document = [[OCGumboDocument alloc] initWithHTMLString:html];
+
+// Structural access.
+OCGumboElement *root = document.rootElement;   // the <html> element
+OCGumboElement *head = document.head;
+OCGumboElement *body = document.body;
+NSLog(@"title: %@", document.title);
+NSLog(@"root tag: %@ (%@)", root.tagName, [root getAttribute:@"lang"]);
+
+// Attributes and children.
+OCGumboElement *heading = document.Query(@"h1").first();
+NSLog(@"heading id: %@", [heading getAttribute:@"id"]);
+NSLog(@"body children: %@", body.childNodes);
+
+// CSS-like queries.
+NSLog(@"paragraphs: %@", document.Query(@"p").text());          // World
+NSLog(@"by class: %@", document.Query(@".lead").text());        // World
+NSLog(@"by tag+class: %@", document.Query(@"p.lead").text());   // World
+NSLog(@"by id: %@", document.Query(@"#heading").text());        // Hello
+NSLog(@"links: %@", document.Query(@"a").first().attr(@"href"));
+
+// Traversal.
+NSLog(@"within body: %@", document.Query(@"body").find(@"a").text());
+NSLog(@"direct children: %@", document.Query(@"body").children(@"p").text());
+NSLog(@"ancestors: %@", document.Query(@".lead").parents(@"body").count);
+```
 
 ## API overview
 

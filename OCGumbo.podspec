@@ -2,12 +2,13 @@ Pod::Spec.new do |spec|
   spec.name = 'OCGumbo'
   spec.version = '1.1.0'
   spec.license = { :type => 'Apache License, Version 2.0', :file => 'LICENSE' }
-  spec.summary = "An Objective-C HTML5 parser built on Google's Gumbo."
+  spec.summary = "A fast HTML5 parser for Swift and Objective-C, built on Google Gumbo."
   spec.description = <<-DESC
-    OCGumbo is an Objective-C wrapper around Google's Gumbo HTML5 parser.
-    It exposes the parsed document as Objective-C objects (documents,
-    elements, text nodes and attributes) and adds a CSS-like query API for
-    selecting nodes by tag name, class and id.
+    OCGumbo is an HTML5 parser for Swift and Objective-C, built on Google's
+    Gumbo. It exposes the parsed document as Foundation objects (documents,
+    elements, text nodes and attributes), annotated for idiomatic use from
+    Swift, and adds a CSS-like query API for selecting nodes by tag name,
+    class and id.
   DESC
   spec.homepage = 'https://github.com/tracy-e/OCGumbo'
   spec.authors = { 'Tracy Yih' => 'tracy.cpp@gmail.com' }
