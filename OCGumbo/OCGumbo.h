@@ -147,7 +147,7 @@ id _Nullable OCGumboAttributeCast(GumboAttribute * _Nullable attribute);
  @param name The attribute name, matched case-insensitively as in HTML.
  @result YES if the attribute is present, otherwise NO.
  */
-- (BOOL)hasAttribute:(NSString *)name;
+- (BOOL)hasAttribute:(NSString *)name NS_SWIFT_NAME(hasAttribute(_:));
 
 /**
  @method getAttribute:
@@ -155,7 +155,7 @@ id _Nullable OCGumboAttributeCast(GumboAttribute * _Nullable attribute);
  @param name The attribute name, matched case-insensitively as in HTML.
  @result The attribute value, or nil if the element has no such attribute.
  */
-- (nullable NSString *)getAttribute:(NSString *)name;
+- (nullable NSString *)getAttribute:(NSString *)name NS_SWIFT_NAME(attribute(named:));
 
 /**
  @method getAttributeNode:
@@ -164,7 +164,7 @@ id _Nullable OCGumboAttributeCast(GumboAttribute * _Nullable attribute);
  @result The matching OCGumboAttribute, or nil if the element has no such
  attribute.
  */
-- (nullable OCGumboAttribute *)getAttributeNode:(NSString *)name;
+- (nullable OCGumboAttribute *)getAttributeNode:(NSString *)name NS_SWIFT_NAME(attributeNode(named:));
 
 @end
 
@@ -257,7 +257,7 @@ id _Nullable OCGumboAttributeCast(GumboAttribute * _Nullable attribute);
  @param htmlString The HTML source to parse.
  @result An initialized document, or nil if allocation failed.
  */
-- (instancetype)initWithHTMLString:(NSString *)htmlString;
+- (instancetype)initWithHTMLString:(NSString *)htmlString NS_SWIFT_NAME(init(html:));
 
 @end
 

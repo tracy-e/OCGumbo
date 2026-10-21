@@ -49,7 +49,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * or tag#id selector.
  * @result A block that performs the query and returns an OCQueryObject.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query;
+@property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query NS_SWIFT_NAME(query);
 
 /**
  * @property attr
@@ -59,7 +59,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * @param attributeName The name of the attribute to read.
  * @result A block that returns the attribute value or nil.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr;
+@property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr NS_SWIFT_NAME(attributeValue);
 
 /**
  * @property text
@@ -78,7 +78,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * it returns nil for non-element nodes.
  * @result A block that returns the raw inner contents of the element.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSN html;
+@property (nonatomic, weak, readonly) OCGumboQueryBlockSN html NS_SWIFT_NAME(innerHTML);
 
 @end
 
@@ -129,7 +129,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the first OCGumboNode, or nil if the collection
  * is empty.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNV first;
+@property (nonatomic, weak, readonly) NSArrayQueryBlockNV first NS_SWIFT_NAME(firstNode);
 
 /**
  * @property last
@@ -137,7 +137,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the last OCGumboNode, or nil if the collection
  * is empty.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNV last;
+@property (nonatomic, weak, readonly) NSArrayQueryBlockNV last NS_SWIFT_NAME(lastNode);
 
 /**
  * @property get
@@ -146,7 +146,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the node at index, or nil if index is out of
  * bounds.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNI get;
+@property (nonatomic, weak, readonly) NSArrayQueryBlockNI get NS_SWIFT_NAME(nodeAtIndex);
 
 /**
  * @property hasClass
@@ -166,7 +166,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the index of element, or NSNotFound if the node
  * is not in the collection.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockIN index;
+@property (nonatomic, weak, readonly) NSArrayQueryBlockIN index NS_SWIFT_NAME(indexOf);
 
 /**
  * @property find
