@@ -94,7 +94,7 @@ extension OCGumboNode {
     /// A typed property wrapping the `text` query block, so it can be used in
     /// string interpolation and collection operations directly.
     public var textContent: String {
-        return text()
+        return text?() ?? ""
     }
 
     /// Returns the descendants of the receiver matching a selector.
@@ -102,7 +102,7 @@ extension OCGumboNode {
     /// Selectors are the ones understood by `query`: `#id`, `tag`, `.class`,
     /// `tag.class` and `tag#id`.
     public func select(_ selector: String) -> [OCGumboNode] {
-        return query(selector).nodes
+        return query?(selector).nodes ?? []
     }
 
     /// Returns the descendant elements matching a selector.
@@ -169,12 +169,7 @@ extension OCGumboElement {
 extension OCQueryObject where ObjectType == OCGumboNode {
     /// The query result as a strongly typed array of nodes.
     public var nodes: [OCGumboNode] {
-        var result: [OCGumboNode] = []
-        result.reserveCapacity(count)
-        for index in 0..<count {
-            result.append(self[index])
-        }
-        return result
+        return self.compactMap { $0 as? OCGumboNode }
     }
 
     /// The query result as an array of elements, skipping non-element nodes.
@@ -191,12 +186,7 @@ extension OCQueryObject where ObjectType == OCGumboNode {
 extension OCQueryObject where ObjectType == NSString {
     /// The query result as a strongly typed array of strings.
     public var strings: [String] {
-        var result: [String] = []
-        result.reserveCapacity(count)
-        for index in 0..<count {
-            result.append(self[index] as String)
-        }
-        return result
+        return self.compactMap { $0 as? String }
     }
 }
 
