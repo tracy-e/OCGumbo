@@ -22,13 +22,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   macOS, checking out submodules recursively.
 - `OCGumbo.podspec` (1.1.0) so the library can be installed with CocoaPods.
 - `CHANGELOG.md` and `CONTRIBUTING.md`.
+- First-class Swift support (packaging, annotations and overlay):
+  - `NS_ASSUME_NONNULL_BEGIN`/`NS_ASSUME_NONNULL_END`, explicit `nullable`
+    annotations on the values that can be `nil`, and lightweight generics
+    (`NSArray<OCGumboNode *> *`, `NSArray<OCGumboAttribute *> *`, and a new
+    covariant `OCQueryObject<ObjectType>`) on all public headers.
+  - `NS_SWIFT_NAME` refinements for idiomatic Swift names without changing
+    any Objective-C selector: `init(html:)`, `attribute(named:)`,
+    `attributeNode(named:)`, `hasAttribute(_:)`, and the block properties
+    `query`, `attributeValue`, `innerHTML`, `firstNode`, `lastNode`,
+    `nodeAtIndex` and `indexOf`.
+  - A new `OCGumboSwift` Swift overlay target and library product. It adds
+    `Collection` conformance over a node's children, `childElements`,
+    `descendants`, `descendantElements`, `textContent`, an attribute subscript
+    with `id`/`classNames`/`attributeMap`/`hasClass(_:)`,
+    `select`/`selectElements`/`firstElement(matching:)`, typed query-result
+    accessors (`nodes`, `elements`, `firstElement`, `strings`) and
+    `OCGumboDocument.parse(_:)`. It re-exports `OCGumbo`.
+  - A `Tests/OCGumboSwiftTests` XCTest suite covering the overlay and basic
+    parsing, wired into `Package.swift`.
 
 ### Changed
 
 - Rewrote `README.md` with badges, a feature summary, installation instructions
   for Swift Package Manager, CocoaPods and manual integration, Objective-C and
   Swift usage examples, and links to the contributing guide and license.
+- Updated the README Swift section to document the `OCGumboSwift` overlay, its
+  Swift-refined names and its convenience API.
 - `.gitignore` now also ignores SwiftPM build products.
+- `Package.swift` also declares an `OCGumboSwift` target and library product
+  and an `OCGumboSwiftTests` test target.
 
 ### Fixed
 
