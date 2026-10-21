@@ -1,0 +1,11 @@
+// Module map for the OCGumbo Objective-C target.
+//
+// SwiftPM points the target's public headers path at this directory.  A custom
+// module map is used instead of the generated umbrella header so that the
+// gumbo submodule, which is also checked out in this directory, is not swept
+// into the module.
+module OCGumbo {
+    header "OCGumbo.h"
+    header "OCGumbo+Query.h"
+    export *
+}
