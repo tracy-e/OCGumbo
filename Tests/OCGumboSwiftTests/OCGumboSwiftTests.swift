@@ -72,18 +72,18 @@ final class OCGumboSwiftTests: XCTestCase {
         XCTAssertFalse(body.hasAttribute("missing"))
 
         // get: -> nodeAtIndex, first -> firstNode, last -> lastNode, index -> indexOf
-        let options = document.query("option")
+        let options = document.query!("option")
         XCTAssertEqual(options.count, 3)
-        XCTAssertEqual(options.firstNode()?.text(), "A")
-        XCTAssertEqual(options.lastNode()?.text(), "C")
-        XCTAssertEqual(options.nodeAtIndex(1)?.text(), "B")
-        XCTAssertNil(options.nodeAtIndex(3))
-        XCTAssertEqual(options.indexOf(options.nodeAtIndex(2)!), 2)
+        XCTAssertEqual(options.firstNode!()?.text!(), "A")
+        XCTAssertEqual(options.lastNode!()?.text!(), "C")
+        XCTAssertEqual(options.nodeAtIndex!(1)?.text!(), "B")
+        XCTAssertNil(options.nodeAtIndex!(3))
+        XCTAssertEqual(options.indexOf!(options.nodeAtIndex!(2)!), 2)
 
         // Query -> query, attr -> attributeValue, html -> innerHTML
-        let select = document.query("select").firstNode() as? OCGumboElement
-        XCTAssertEqual(select?.attributeValue("id"), "select")
-        XCTAssertEqual(document.query("p").firstNode()?.innerHTML(), "text in p")
+        let select = document.query!("select").firstNode!() as? OCGumboElement
+        XCTAssertEqual(select?.attributeValue!("id"), "select")
+        XCTAssertEqual(document.query!("p").firstNode!()?.innerHTML!(), "text in p")
     }
 
     // MARK: - Sequence / Collection conformance
@@ -110,7 +110,7 @@ final class OCGumboSwiftTests: XCTestCase {
     }
 
     func testIterationOverTextNodeIsEmpty() {
-        let paragraph = document.query("p").firstNode()!
+        let paragraph = document.query!("p").firstNode!()!
         let text = paragraph.first!
         XCTAssertEqual(text.nodeType, GUMBO_NODE_TEXT)
         XCTAssertEqual(text.count, 0)
@@ -179,19 +179,19 @@ final class OCGumboSwiftTests: XCTestCase {
     }
 
     func testQueryResultHelpers() {
-        let paragraphs = document.query("p")
+        let paragraphs = document.query!("p")
         XCTAssertEqual(paragraphs.nodes.count, 1)
         XCTAssertEqual(paragraphs.elements.map(\.tagName), ["p"])
         XCTAssertEqual(paragraphs.firstElement?.textContent, "text in p")
 
         // A nil selector returns the direct children of the document node.
-        let everything = document.query(nil)
+        let everything = document.query!(nil)
         XCTAssertEqual(everything.nodes.count, document.childNodes.count)
 
-        let texts = document.query("select").children("option").textArray()
+        let texts = document.query!("select").children!("option").textArray!()
         XCTAssertEqual(texts.strings, ["A", "B", "C"])
 
-        let empty = document.query("table")
+        let empty = document.query!("table")
         XCTAssertTrue(empty.nodes.isEmpty)
         XCTAssertNil(empty.firstElement)
     }
@@ -211,6 +211,6 @@ final class OCGumboSwiftTests: XCTestCase {
     func testMalformedHTMLIsRepaired() {
         let parsed = OCGumboDocument.parse("<html><body><p>one<p>two")
         XCTAssertEqual(parsed.selectElements("p").count, 2)
-        XCTAssertEqual(parsed.query("p").text(), "onetwo")
+        XCTAssertEqual(parsed.query!("p").text!(), "onetwo")
     }
 }
