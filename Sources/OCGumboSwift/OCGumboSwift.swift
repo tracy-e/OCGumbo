@@ -169,7 +169,7 @@ extension OCGumboElement {
 extension OCQueryObject where ObjectType == OCGumboNode {
     /// The query result as a strongly typed array of nodes.
     public var nodes: [OCGumboNode] {
-        return self.compactMap { $0 as? OCGumboNode }
+        return (self as NSArray).compactMap { $0 as? OCGumboNode }
     }
 
     /// The query result as an array of elements, skipping non-element nodes.
@@ -186,7 +186,7 @@ extension OCQueryObject where ObjectType == OCGumboNode {
 extension OCQueryObject where ObjectType == NSString {
     /// The query result as a strongly typed array of strings.
     public var strings: [String] {
-        return self.compactMap { $0 as? String }
+        return (self as NSArray).compactMap { $0 as? String }
     }
 }
 

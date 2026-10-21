@@ -369,3 +369,11 @@ NS_INLINE NSArray *oc_gumbo_find_parents(GumboNode *node, NSString *selector, BO
 }
 
 @end
+
+#pragma mark - OCQueryObject
+
+// OCQueryObject is only a typed name for the NSArray instances returned by the
+// query API (it has never been instantiated directly).  An empty implementation
+// gives the class a runtime symbol so Swift can reference its metadata.
+@implementation OCQueryObject
+@end
