@@ -58,7 +58,7 @@ final class OCGumboSwiftTests: XCTestCase {
 
     func testParseHelperMatchesInitializer() {
         let parsed = OCGumboDocument.parse("<html><body><p>Hi</p></body></html>")
-        XCTAssertEqual(parsed.nodeType, .document)
+        XCTAssertEqual(parsed.nodeType, GUMBO_NODE_DOCUMENT)
         XCTAssertEqual(parsed.firstElement(matching: "p")?.textContent, "Hi")
         XCTAssertEqual(document.title, "Hello OCGumbo")
     }
@@ -100,7 +100,7 @@ final class OCGumboSwiftTests: XCTestCase {
 
         // Indexed access mirrors childNodes.
         XCTAssertEqual(body[0].nodeName, "h1")
-        XCTAssertEqual(body[4].nodeType, .comment)
+        XCTAssertEqual(body[4].nodeType, GUMBO_NODE_COMMENT)
         XCTAssertEqual(body[3].nodeName, "select")
 
         // The document node yields its one child, the root element.
@@ -112,7 +112,7 @@ final class OCGumboSwiftTests: XCTestCase {
     func testIterationOverTextNodeIsEmpty() {
         let paragraph = document.query("p").firstNode()!
         let text = paragraph.first!
-        XCTAssertEqual(text.nodeType, .text)
+        XCTAssertEqual(text.nodeType, GUMBO_NODE_TEXT)
         XCTAssertEqual(text.count, 0)
         XCTAssertTrue(Array(text).isEmpty)
     }

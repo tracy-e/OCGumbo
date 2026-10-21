@@ -49,7 +49,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * or tag#id selector.
  * @result A block that performs the query and returns an OCQueryObject.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query NS_SWIFT_NAME(query);
+@property (nonatomic, weak, readonly, nonnull) OCGumboQueryBlockAS Query NS_SWIFT_NAME(query);
 
 /**
  * @property attr
@@ -59,7 +59,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * @param attributeName The name of the attribute to read.
  * @result A block that returns the attribute value or nil.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSS attr NS_SWIFT_NAME(attributeValue);
+@property (nonatomic, weak, readonly, nonnull) OCGumboQueryBlockSS attr NS_SWIFT_NAME(attributeValue);
 
 /**
  * @property text
@@ -68,7 +68,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * nodes, in document order. For a text node it returns its own value.
  * @result A block that returns the combined text contents.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSV text;
+@property (nonatomic, weak, readonly, nonnull) OCGumboQueryBlockSV text;
 
 /**
  * @property html
@@ -78,7 +78,7 @@ typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
  * it returns nil for non-element nodes.
  * @result A block that returns the raw inner contents of the element.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSN html NS_SWIFT_NAME(innerHTML);
+@property (nonatomic, weak, readonly, nonnull) OCGumboQueryBlockSN html NS_SWIFT_NAME(innerHTML);
 
 @end
 
@@ -113,7 +113,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @abstract Get the combined text contents of every node in the collection.
  * @result A block that returns the concatenated text contents.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockSV text;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockSV text;
 
 /**
  * @property textArray
@@ -121,7 +121,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns an OCQueryObject containing one string per text
  * node.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockSA textArray;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockSA textArray;
 
 /**
  * @property first
@@ -129,7 +129,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the first OCGumboNode, or nil if the collection
  * is empty.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNV first NS_SWIFT_NAME(firstNode);
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockNV first NS_SWIFT_NAME(firstNode);
 
 /**
  * @property last
@@ -137,7 +137,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the last OCGumboNode, or nil if the collection
  * is empty.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNV last NS_SWIFT_NAME(lastNode);
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockNV last NS_SWIFT_NAME(lastNode);
 
 /**
  * @property get
@@ -146,7 +146,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the node at index, or nil if index is out of
  * bounds.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockNI get NS_SWIFT_NAME(nodeAtIndex);
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockNI get NS_SWIFT_NAME(nodeAtIndex);
 
 /**
  * @property hasClass
@@ -157,7 +157,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @param name The class name to look for.
  * @result A block that currently always returns NO.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockBS hasClass;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockBS hasClass;
 
 /**
  * @property index
@@ -166,7 +166,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns the index of element, or NSNotFound if the node
  * is not in the collection.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockIN index NS_SWIFT_NAME(indexOf);
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockIN index NS_SWIFT_NAME(indexOf);
 
 /**
  * @property find
@@ -175,7 +175,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * or tag#id selector.
  * @result A block that returns an OCQueryObject with all matching descendants.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockAS find;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockAS find;
 
 /**
  * @property children
@@ -184,7 +184,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * or tag#id selector.
  * @result A block that returns an OCQueryObject with the matching children.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockAS children;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockAS children;
 
 /**
  * @property parent
@@ -196,7 +196,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns an OCQueryObject with the matching parents,
  * without duplicates.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockAS parent;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockAS parent;
 
 /**
  * @property parents
@@ -207,7 +207,7 @@ typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
  * @result A block that returns an OCQueryObject with the matching ancestors,
  * without duplicates.
  */
-@property (nonatomic, weak, readonly) NSArrayQueryBlockAS parents;
+@property (nonatomic, weak, readonly, nonnull) NSArrayQueryBlockAS parents;
 
 @end
 
