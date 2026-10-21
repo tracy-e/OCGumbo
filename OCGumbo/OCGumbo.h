@@ -21,6 +21,11 @@
 #include "gumbo.h"
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+@class OCGumboNode;
+@class OCGumboAttribute;
+
 /**
  @function OCGumboNodeCast
  @abstract Wraps a raw Gumbo parse-tree node in the matching OCGumboNode subclass.
@@ -32,7 +37,7 @@
  @param node The Gumbo node to wrap. May be NULL, in which case nil is returned.
  @result An OCGumboNode (or subclass) instance, or nil.
  */
-id OCGumboNodeCast(GumboNode *node);
+id _Nullable OCGumboNodeCast(GumboNode * _Nullable node);
 
 /**
  @function OCGumboAttributeCast
@@ -43,7 +48,7 @@ id OCGumboNodeCast(GumboNode *node);
  is returned.
  @result An OCGumboAttribute instance, or nil.
  */
-id OCGumboAttributeCast(GumboAttribute *attribute);
+id _Nullable OCGumboAttributeCast(GumboAttribute * _Nullable attribute);
 
 #pragma mark -
 /**
@@ -67,7 +72,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion "#document" for the document node, "#text" for text nodes, and the
  normalized lowercase tag name for elements. nil for other node types.
  */
-@property (nonatomic, copy, readonly) NSString *nodeName;
+@property (nonatomic, copy, readonly, nullable) NSString *nodeName;
 
 /**
  @property nodeValue
@@ -75,7 +80,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion The text contents for text, CDATA, comment and whitespace nodes;
  nil for document and element nodes.
  */
-@property (nonatomic, copy, readonly) NSString *nodeValue;
+@property (nonatomic, copy, readonly, nullable) NSString *nodeValue;
 
 /**
  @property nodeType
@@ -91,14 +96,14 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion An array of OCGumboNode (or subclass) objects in document order.
  Empty for nodes that cannot have children, such as text nodes.
  */
-@property (nonatomic, readonly) NSArray *childNodes;
+@property (nonatomic, readonly) NSArray<OCGumboNode *> *childNodes;
 
 /**
  @property parentNode
  @abstract The parent of the receiver, or nil if it has none.
  @result An OCGumboNode (or subclass) instance, or nil for the document node.
  */
-@property (nonatomic, readonly) OCGumboNode *parentNode;
+@property (nonatomic, readonly, nullable) OCGumboNode *parentNode;
 
 @end
 
@@ -134,7 +139,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion An array of OCGumboAttribute objects. Empty when the element has
  no attributes.
  */
-@property (nonatomic, readonly) NSArray *attributes;
+@property (nonatomic, readonly) NSArray<OCGumboAttribute *> *attributes;
 
 /**
  @method hasAttribute:
@@ -150,7 +155,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @param name The attribute name, matched case-insensitively as in HTML.
  @result The attribute value, or nil if the element has no such attribute.
  */
-- (NSString *)getAttribute:(NSString *)name;
+- (nullable NSString *)getAttribute:(NSString *)name;
 
 /**
  @method getAttributeNode:
@@ -159,7 +164,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @result The matching OCGumboAttribute, or nil if the element has no such
  attribute.
  */
-- (OCGumboAttribute *)getAttributeNode:(NSString *)name;
+- (nullable OCGumboAttribute *)getAttributeNode:(NSString *)name;
 
 @end
 
@@ -198,7 +203,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @abstract The text of the document's title element.
  @result The title text, or nil if the document has no title element.
  */
-@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly, nullable) NSString *title;
 
 /**
  @property hasDoctype
@@ -212,7 +217,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion Only meaningful when hasDoctype is YES; Gumbo leaves the
  identifier unset when the declaration does not provide one.
  */
-@property (nonatomic, copy, readonly) NSString *publicID;
+@property (nonatomic, copy, readonly, nullable) NSString *publicID;
 
 /**
  @property systemID
@@ -220,7 +225,7 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @discussion Only meaningful when hasDoctype is YES; Gumbo leaves the
  identifier unset when the declaration does not provide one.
  */
-@property (nonatomic, copy, readonly) NSString *systemID;
+@property (nonatomic, copy, readonly, nullable) NSString *systemID;
 
 /**
  @property rootElement
@@ -233,14 +238,14 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
  @abstract The head element of the document.
  @result The head element, or nil if the parsed document has none.
  */
-@property (nonatomic, readonly) OCGumboElement *head;
+@property (nonatomic, readonly, nullable) OCGumboElement *head;
 
 /**
  @property body
  @abstract The body element of the document.
  @result The body element, or nil if the parsed document has none.
  */
-@property (nonatomic, readonly) OCGumboElement *body;
+@property (nonatomic, readonly, nullable) OCGumboElement *body;
 
 /**
  @method initWithHTMLString:
@@ -279,3 +284,5 @@ id OCGumboAttributeCast(GumboAttribute *attribute);
 @property (nonatomic, copy, readonly) NSString *value;
 
 @end
+
+NS_ASSUME_NONNULL_END

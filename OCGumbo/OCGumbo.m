@@ -176,7 +176,7 @@ id OCGumboNodeCast(GumboNode *node)
     return _gumboNode->type;
 }
 
-- (NSArray *)childNodes
+- (NSArray<OCGumboNode *> *)childNodes
 {
     NSMutableArray *childNodes = [[NSMutableArray alloc] init];
     GumboVector children = oc_gumbo_get_children(_gumboNode);
@@ -199,7 +199,9 @@ id OCGumboNodeCast(GumboNode *node)
 
 - (NSString *)tagName
 {
-    return self.nodeName;
+    // Element nodes always have a normalized tag name, so nodeName is non-nil
+    // here; the fallback only satisfies the nonnull declaration.
+    return self.nodeName ?: @"";
 }
 
 - (GumboTag)tag
@@ -207,7 +209,7 @@ id OCGumboNodeCast(GumboNode *node)
     return oc_gumbo_get_tag(_gumboNode);
 }
 
-- (NSArray *)attributes
+- (NSArray<OCGumboAttribute *> *)attributes
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     GumboVector attributes = _gumboNode->v.element.attributes;
@@ -297,19 +299,19 @@ id OCGumboNodeCast(GumboNode *node)
 
 - (OCGumboElement *)rootElement
 {
-    return OCGumboNodeCast(_gumboOutput->root);
+    return (OCGumboElement *)OCGumboNodeCast(_gumboOutput->root);
 }
 
 - (OCGumboElement *)head
 {
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_HEAD);
-    return OCGumboNodeCast(node);
+    return (OCGumboElement *)OCGumboNodeCast(node);
 }
 
 - (OCGumboElement *)body
 {
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_BODY);
-    return OCGumboNodeCast(node);
+    return (OCGumboElement *)OCGumboNodeCast(node);
 }
 
 @end

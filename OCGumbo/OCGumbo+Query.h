@@ -14,14 +14,18 @@
 
 #import "OCGumbo.h"
 
-@class OCQueryObject;
+NS_ASSUME_NONNULL_BEGIN
+
+@class OCQueryObject<__covariant ObjectType>;
 
 /** Block returned by the Query property of OCGumboNode. */
-typedef OCQueryObject * (^OCGumboQueryBlockAS)(NSString *);
+typedef OCQueryObject<OCGumboNode *> * _Nonnull (^OCGumboQueryBlockAS)(NSString * _Nullable selector);
 /** Block returned by the attr property of OCGumboNode. */
-typedef NSString * (^OCGumboQueryBlockSS)(NSString *);
-/** Block returned by the text and html properties of OCGumboNode. */
-typedef NSString * (^OCGumboQueryBlockSV)(void);
+typedef NSString * _Nullable (^OCGumboQueryBlockSS)(NSString *attributeName);
+/** Block returned by the text property of OCGumboNode. */
+typedef NSString * _Nonnull (^OCGumboQueryBlockSV)(void);
+/** Block returned by the html property of OCGumboNode. */
+typedef NSString * _Nullable (^OCGumboQueryBlockSN)(void);
 
 /**
  * @category OCGumboNode(Query)
@@ -74,25 +78,25 @@ typedef NSString * (^OCGumboQueryBlockSV)(void);
  * it returns nil for non-element nodes.
  * @result A block that returns the raw inner contents of the element.
  */
-@property (nonatomic, weak, readonly) OCGumboQueryBlockSV html;
+@property (nonatomic, weak, readonly) OCGumboQueryBlockSN html;
 
 @end
 
 #pragma mark -
 /** Block returned by first and last. */
-typedef OCGumboNode * (^NSArrayQueryBlockNV)(void);
+typedef OCGumboNode * _Nullable (^NSArrayQueryBlockNV)(void);
 /** Block returned by get. */
-typedef OCGumboNode * (^NSArrayQueryBlockNI)(NSUInteger);
+typedef OCGumboNode * _Nullable (^NSArrayQueryBlockNI)(NSUInteger);
 /** Block returned by hasClass. */
 typedef BOOL (^NSArrayQueryBlockBS)(NSString *);
 /** Block returned by index. */
 typedef NSUInteger (^NSArrayQueryBlockIN)(OCGumboNode *);
 /** Block returned by find, children, parent and parents. */
-typedef OCQueryObject * (^NSArrayQueryBlockAS)(NSString *);
+typedef OCQueryObject<OCGumboNode *> * _Nonnull (^NSArrayQueryBlockAS)(NSString *);
 /** Block returned by textArray. */
-typedef OCQueryObject * (^NSArrayQueryBlockSA)(void);
+typedef OCQueryObject<NSString *> * _Nonnull (^NSArrayQueryBlockSA)(void);
 /** Block returned by text. */
-typedef NSString * (^NSArrayQueryBlockSV)(void);
+typedef NSString * _Nonnull (^NSArrayQueryBlockSV)(void);
 
 /**
  * @class OCQueryObject
@@ -102,7 +106,7 @@ typedef NSString * (^NSArrayQueryBlockSV)(void);
  * obtain a value. Because the object is an NSArray subclass, it can be used
  * directly in fast enumeration and indexed subscripting.
  */
-@interface OCQueryObject : NSArray
+@interface OCQueryObject<__covariant ObjectType> : NSArray<ObjectType>
 
 /**
  * @property text
@@ -206,3 +210,5 @@ typedef NSString * (^NSArrayQueryBlockSV)(void);
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS parents;
 
 @end
+
+NS_ASSUME_NONNULL_END
