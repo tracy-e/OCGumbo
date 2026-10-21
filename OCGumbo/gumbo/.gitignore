@@ -1,0 +1,46 @@
+# Compilation artifacts
+*.o
+*.lo
+*.la
+
+# Editor swap files
+*.swp
+*.swo
+*.swn
+
+# Other build artifacts
+.deps
+.dirstamp
+.libs
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+compile
+config.guess
+config.log
+config.status
+config.sub
+configure
+depcomp
+gumbo.pc
+gumbo_test
+gumbo_test.log
+gumbo_test.trs
+install-sh
+libtool
+ltmain.sh
+m4/
+missing
+test-driver
+test-suite.log
+
+# `make dist` artifacts
+/gumbo-[0-9].[0-9].tar.gz
+/gumbo-[0-9].[0-9]/
+
+# Example binaries
+clean_text
+find_links
+get_title
+positions_of_class

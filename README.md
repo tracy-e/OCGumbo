@@ -29,7 +29,7 @@ idiomatic Swift overlay (`OCGumboSwift`).
 - **Text helpers.** Read the combined text of a node or a whole collection with
   `text`, or the raw inner markup with `html`.
 - **No dependencies of its own.** Everything is built from the sources in this
-  repository; the Gumbo parser is vendored as a git submodule.
+  repository, including the vendored Gumbo parser.
 
 ## Requirements
 
@@ -65,18 +65,8 @@ enough.
 )
 ```
 
-The Gumbo parser itself lives in the `OCGumbo/gumbo` git submodule. SwiftPM
-does not check out submodules for you, so initialize it once in your checkout
-before building:
-
-```sh
-git submodule update --init --recursive
-swift build
-```
-
-When using OCGumbo as a remote SwiftPM dependency, prefer a fork or mirror that
-has the Gumbo sources vendored, or check the submodule out manually in
-`.build/checkouts/OCGumbo`.
+The Gumbo parser sources are included in `OCGumbo/gumbo`, so remote SwiftPM
+dependencies build without any submodule setup.
 
 ### CocoaPods
 
@@ -94,14 +84,11 @@ Then run `pod install`.
 
 ### Manual installation
 
-1. Clone the repository with its submodule:
+1. Clone the repository:
 
    ```sh
-   git clone --recursive https://github.com/tracy-e/OCGumbo.git
+   git clone https://github.com/tracy-e/OCGumbo.git
    ```
-
-   If you already cloned it without `--recursive`, run
-   `git submodule update --init --recursive`.
 
 2. Add `OCGumbo/OCGumbo.h`, `OCGumbo/OCGumbo.m`, `OCGumbo/OCGumbo+Query.h` and
    `OCGumbo/OCGumbo+Query.m` to your target.

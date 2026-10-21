@@ -6,7 +6,7 @@
 // Swift Package Manager manifest for OCGumbo, an HTML5 parser for Swift and
 // Objective-C, built on Google's Gumbo.
 //
-// Gumbo itself is vendored, unmodified, as the OCGumbo/gumbo git submodule.
+// Gumbo itself is vendored, unmodified, in OCGumbo/gumbo.
 
 import PackageDescription
 
@@ -27,12 +27,12 @@ let package = Package(
         )
     ],
     targets: [
-        // The Gumbo HTML5 parser, compiled straight from the submodule.  Its
+        // The Gumbo HTML5 parser, compiled straight from the vendored sources.  Its
         // sources sit outside this target's own path (paths cannot contain
         // ".."), so the target is rooted at the package root and `exclude`
         // keeps everything except the Gumbo sources out of it.  The module's
         // public header is the shim in Sources/CGumbo/include, which in turn
-        // includes the real gumbo.h from the submodule.
+        // includes the real vendored gumbo.h.
         .target(
             name: "CGumbo",
             path: ".",
@@ -53,7 +53,7 @@ let package = Package(
         ),
 
         // The Objective-C wrapper.  OCGumbo/module.modulemap pins the two
-        // public headers so the gumbo submodule checked out beside them is not
+        // public headers so the vendored Gumbo sources beside them are not
         // swept into the module.
         .target(
             name: "OCGumbo",

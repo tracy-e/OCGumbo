@@ -1,3 +1,0 @@
-[submodule "OCGumbo/gumbo"]
-	path = OCGumbo/gumbo
-	url = https://github.com/google/gumbo-parser.git

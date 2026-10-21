@@ -14,8 +14,7 @@ Pod::Spec.new do |spec|
   spec.authors = { 'Tracy Yih' => 'tracy.cpp@gmail.com' }
   spec.source = {
     :git => 'https://github.com/tracy-e/OCGumbo.git',
-    :tag => spec.version.to_s,
-    :submodules => true
+    :tag => spec.version.to_s
   }
   spec.documentation_url = 'https://github.com/tracy-e/OCGumbo/blob/master/README.md'
 
@@ -24,9 +23,8 @@ Pod::Spec.new do |spec|
   spec.osx.deployment_target = '10.13'
   spec.frameworks = 'Foundation'
 
-  # Gumbo is vendored as the OCGumbo/gumbo git submodule (:submodules above),
-  # so its C sources are compiled directly into the pod. Only the wrapper's
-  # headers are public.
+  # Vendored Gumbo C sources are compiled directly into the pod.
+  # Only the wrapper headers are public.
   spec.source_files = 'OCGumbo/*.{h,m}', 'OCGumbo/gumbo/src/*.{c,h}'
   # Only the wrapper headers are public; Gumbo's headers stay private to the pod.
   spec.public_header_files = 'OCGumbo/OCGumbo.h', 'OCGumbo/OCGumbo+Query.h'

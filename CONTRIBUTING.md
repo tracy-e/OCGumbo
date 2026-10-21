@@ -28,13 +28,11 @@ model and query style.
 
 ## Working on the code
 
-1. Clone the repository including the Gumbo submodule:
+1. Clone the repository:
 
    ```sh
-   git clone --recursive https://github.com/tracy-e/OCGumbo.git
+   git clone https://github.com/tracy-e/OCGumbo.git
    ```
-
-   If you already cloned it, run `git submodule update --init --recursive`.
 
 2. Create a topic branch for your change:
 
@@ -61,13 +59,14 @@ model and query style.
    The formatting rules live in `.clang-format` and are based on the WebKit
    style with a 4-space indent.
 
-## Submodule policy
+## Vendored Gumbo
 
-`OCGumbo/gumbo` is an unmodified git submodule of
-[google/gumbo-parser](https://github.com/google/gumbo-parser). Do not edit files
-inside it. If a fix is needed in Gumbo, send it upstream and update the
-submodule pointer once it is merged (or propose a patch that keeps the
-submodule clean, such as a workaround in the Objective-C wrapper).
+`OCGumbo/gumbo` contains an unmodified snapshot of
+[google/gumbo-parser](https://github.com/google/gumbo-parser) at commit
+`1fbc93bdf97dde6b07b67abb29a71d779f533dd8`, including its Apache 2.0 license
+in `OCGumbo/gumbo/COPYING`. The sources are tracked directly so remote SwiftPM
+dependencies need no submodule initialization. Send parser fixes upstream and
+update this snapshot and commit reference together.
 
 ## Pull requests
 
