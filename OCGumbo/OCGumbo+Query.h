@@ -14,17 +14,18 @@
 
 #import "OCGumbo.h"
 
-@class  OCQueryObject;
-typedef OCQueryObject * (^OCGumboQueryBlockAS) (NSString *);
-typedef NSString *      (^OCGumboQueryBlockSS) (NSString *);
-typedef NSString *      (^OCGumboQueryBlockSV) (void);
+@class OCQueryObject;
+typedef OCQueryObject * (^OCGumboQueryBlockAS)(NSString *);
+typedef NSString * (^OCGumboQueryBlockSS)(NSString *);
+typedef NSString * (^OCGumboQueryBlockSV)(void);
 
 @interface OCGumboNode (Query)
 
 /**
  *  Query children elements from current node by selector.
  *
- *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector | tagName#elementID.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector
+ *  | tagName#elementID.
  */
 @property (nonatomic, weak, readonly) OCGumboQueryBlockAS Query;
 
@@ -48,13 +49,13 @@ typedef NSString *      (^OCGumboQueryBlockSV) (void);
 @end
 
 #pragma mark -
-typedef OCGumboNode *   (^NSArrayQueryBlockNV) (void);
-typedef OCGumboNode *   (^NSArrayQueryBlockNI) (NSUInteger);
-typedef BOOL            (^NSArrayQueryBlockBS) (NSString *);
-typedef NSUInteger      (^NSArrayQueryBlockIN) (OCGumboNode *);
-typedef OCQueryObject * (^NSArrayQueryBlockAS) (NSString *);
-typedef OCQueryObject * (^NSArrayQueryBlockSA) (void);
-typedef NSString *      (^NSArrayQueryBlockSV) (void);
+typedef OCGumboNode * (^NSArrayQueryBlockNV)(void);
+typedef OCGumboNode * (^NSArrayQueryBlockNI)(NSUInteger);
+typedef BOOL (^NSArrayQueryBlockBS)(NSString *);
+typedef NSUInteger (^NSArrayQueryBlockIN)(OCGumboNode *);
+typedef OCQueryObject * (^NSArrayQueryBlockAS)(NSString *);
+typedef OCQueryObject * (^NSArrayQueryBlockSA)(void);
+typedef NSString * (^NSArrayQueryBlockSV)(void);
 
 @interface OCQueryObject : NSArray
 
@@ -100,28 +101,32 @@ typedef NSString *      (^NSArrayQueryBlockSV) (void);
 /**
  *  Find elements that match the selector in the current collection.
  *
- *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector | tagName#elementID.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector
+ *  | tagName#elementID.
  */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS find;
 
 /**
  *  Get immediate children of each element in the current collection matching the selector.
  *
- *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector | tagName#elementID.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector
+ *  | tagName#elementID.
  */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS children;
 
 /**
  *  Get immediate parents of each element in the collection matching the selector.
  *
- *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector | tagName#elementID.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector
+ *  | tagName#elementID.
  */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS parent;
 
 /**
  *  Get all ancestors of each element in the collection matching the selector.
  *
- *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector | tagName#elementID.
+ *  @param selector (NSString *) can be elementID | tagName | classSelector | tagName.classSelector
+ *  | tagName#elementID.
  */
 @property (nonatomic, weak, readonly) NSArrayQueryBlockAS parents;
 

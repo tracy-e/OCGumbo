@@ -1,0 +1,26 @@
+# OCGumbo clang-format configuration.
+#
+# Derived from the WebKit style with a 4-space indent, which matches the
+# existing Objective-C sources.  Format with:
+#
+#     clang-format -i OCGumbo/*.h OCGumbo/*.m
+#
+BasedOnStyle: WebKit
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+ObjCBlockIndentWidth: 4
+ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: Never
+BreakBeforeBraces: WebKit
+IndentCaseLabels: false
+PointerAlignment: Right
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SortIncludes: false
+ReflowComments: false

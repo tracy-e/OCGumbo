@@ -12,16 +12,16 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-
 #import "OCGumbo.h"
 
 #pragma mark C Methods
 
 #if !defined(NS_INLINE)
-    #define NS_INLINE static inline
+#define NS_INLINE static inline
 #endif
 
-NS_INLINE GumboVector oc_gumbo_get_children(GumboNode *node) {
+NS_INLINE GumboVector oc_gumbo_get_children(GumboNode *node)
+{
     if (node->type == GUMBO_NODE_DOCUMENT) {
         return node->v.document.children;
     }
@@ -31,22 +31,26 @@ NS_INLINE GumboVector oc_gumbo_get_children(GumboNode *node) {
     return kGumboEmptyVector;
 }
 
-NS_INLINE int oc_gumbo_get_child_cout(GumboNode *node) {
+NS_INLINE int oc_gumbo_get_child_cout(GumboNode *node)
+{
     return oc_gumbo_get_children(node).length;
 }
 
-NS_INLINE GumboTag oc_gumbo_get_tag(GumboNode *node) {
+NS_INLINE GumboTag oc_gumbo_get_tag(GumboNode *node)
+{
     return node->v.element.tag;
 }
 
-NS_INLINE const char *oc_gumbo_get_tagname(GumboNode *node) {
+NS_INLINE const char *oc_gumbo_get_tagname(GumboNode *node)
+{
     if (node->type == GUMBO_NODE_ELEMENT) {
         return gumbo_normalized_tagname(node->v.element.tag);
     }
     return NULL;
 }
 
-NS_INLINE const char *oc_gumbo_get_attribute(GumboNode *node, const char *name) {
+NS_INLINE const char *oc_gumbo_get_attribute(GumboNode *node, const char *name)
+{
     if (node->type == GUMBO_NODE_ELEMENT) {
         GumboVector attributes = node->v.element.attributes;
         GumboAttribute *attribute = gumbo_get_attribute(&attributes, name);
@@ -57,18 +61,21 @@ NS_INLINE const char *oc_gumbo_get_attribute(GumboNode *node, const char *name) 
     return NULL;
 }
 
-NS_INLINE int oc_gumbo_get_attribute_count(GumboNode *node) {
+NS_INLINE int oc_gumbo_get_attribute_count(GumboNode *node)
+{
     if (node->type == GUMBO_NODE_ELEMENT) {
         return node->v.element.attributes.length;
     }
     return 0;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_child_at_index(GumboNode *node, int index) {
+NS_INLINE GumboNode *oc_gumbo_get_child_at_index(GumboNode *node, int index)
+{
     return oc_gumbo_get_children(node).data[index];
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node) {
+NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node)
+{
     GumboVector children = oc_gumbo_get_children(node);
     if (children.length) {
         return children.data[0];
@@ -76,7 +83,8 @@ NS_INLINE GumboNode *oc_gumbo_get_firstchild(GumboNode *node) {
     return NULL;
 }
 
-NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag tag) {
+NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag tag)
+{
     GumboNode *root = node;
     int count = oc_gumbo_get_child_cout(root);
     for (int i = 0; i < count; i++) {
@@ -95,11 +103,11 @@ NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag
     return NULL;
 }
 
-
 #pragma mark -
 @implementation OCGumboNode
 
-- (id)initWithGumboNode:(GumboNode *)node {
+- (id)initWithGumboNode:(GumboNode *)node
+{
     self = [super init];
     if (self) {
         _gumboNode = node;
@@ -107,7 +115,8 @@ NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag
     return self;
 }
 
-+ (id)nodeWithGumboNode:(GumboNode *)node {
++ (id)nodeWithGumboNode:(GumboNode *)node
+{
     Class cls;
     if (node->type == GUMBO_NODE_DOCUMENT) {
         cls = [OCGumboDocument class];
@@ -119,16 +128,19 @@ NS_INLINE GumboNode *oc_gumbo_get_first_element_by_tag(GumboNode *node, GumboTag
     return [[cls alloc] initWithGumboNode:node];
 }
 
-id OCGumboNodeCast(GumboNode *node) {
+id OCGumboNodeCast(GumboNode *node)
+{
     return [OCGumboNode nodeWithGumboNode:node];
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %p %@>" ,[self class],self,
-            self.nodeName ? self.nodeName : self.nodeValue];
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p %@>", [self class], self,
+        self.nodeName ? self.nodeName : self.nodeValue];
 }
 
-- (BOOL)isEqual:(OCGumboNode *)object {
+- (BOOL)isEqual:(OCGumboNode *)object
+{
     if (object && [object isKindOfClass:[OCGumboNode class]]) {
         return _gumboNode == object->_gumboNode;
     }
@@ -136,7 +148,8 @@ id OCGumboNodeCast(GumboNode *node) {
 }
 
 #pragma mark - Properties
-- (NSString *)nodeName {
+- (NSString *)nodeName
+{
     if (_gumboNode->type == GUMBO_NODE_DOCUMENT) {
         return @"#document";
     }
@@ -149,20 +162,22 @@ id OCGumboNodeCast(GumboNode *node) {
     return nil;
 }
 
-- (NSString *)nodeValue {
+- (NSString *)nodeValue
+{
     GumboNodeType type = _gumboNode->type;
-    if (type != GUMBO_NODE_DOCUMENT &&
-        type != GUMBO_NODE_ELEMENT) {
+    if (type != GUMBO_NODE_DOCUMENT && type != GUMBO_NODE_ELEMENT) {
         return @(_gumboNode->v.text.text);
     }
     return nil;
 }
 
-- (GumboNodeType)nodeType {
+- (GumboNodeType)nodeType
+{
     return _gumboNode->type;
 }
 
-- (NSArray *)childNodes {
+- (NSArray *)childNodes
+{
     NSMutableArray *childNodes = [[NSMutableArray alloc] init];
     GumboVector children = oc_gumbo_get_children(_gumboNode);
     for (int i = 0; i < children.length; i++) {
@@ -172,25 +187,28 @@ id OCGumboNodeCast(GumboNode *node) {
     return childNodes;
 }
 
-- (OCGumboNode *)parentNode {
+- (OCGumboNode *)parentNode
+{
     return OCGumboNodeCast(_gumboNode->parent);
 }
 
 @end
 
-
 #pragma mark -
 @implementation OCGumboElement
 
-- (NSString *)tagName {
+- (NSString *)tagName
+{
     return self.nodeName;
 }
 
-- (GumboTag)tag {
+- (GumboTag)tag
+{
     return oc_gumbo_get_tag(_gumboNode);
 }
 
-- (NSArray *)attributes {
+- (NSArray *)attributes
+{
     NSMutableArray *result = [[NSMutableArray alloc] init];
     GumboVector attributes = _gumboNode->v.element.attributes;
     for (int i = 0; i < attributes.length; i++) {
@@ -200,15 +218,19 @@ id OCGumboNodeCast(GumboNode *node) {
     return result;
 }
 
-- (BOOL)hasAttribute:(NSString *)name {
+- (BOOL)hasAttribute:(NSString *)name
+{
     return gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]) != NULL;
 }
 
-- (OCGumboAttribute *)getAttributeNode:(NSString *)name {
-    return OCGumboAttributeCast(gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]));
+- (OCGumboAttribute *)getAttributeNode:(NSString *)name
+{
+    return OCGumboAttributeCast(
+        gumbo_get_attribute(&_gumboNode->v.element.attributes, [name UTF8String]));
 }
 
-- (NSString *)getAttribute:(NSString *)name {
+- (NSString *)getAttribute:(NSString *)name
+{
     const char *text = oc_gumbo_get_attribute(_gumboNode, [name UTF8String]);
     return text ? @(text) : nil;
 }
@@ -218,7 +240,8 @@ id OCGumboNodeCast(GumboNode *node) {
 #pragma mark -
 @implementation OCGumboText
 
-- (NSString *)data {
+- (NSString *)data
+{
     return @(_gumboNode->v.text.text);
 }
 
@@ -229,11 +252,13 @@ id OCGumboNodeCast(GumboNode *node) {
     GumboOutput *_gumboOutput;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     gumbo_destroy_output(&kGumboDefaultOptions, _gumboOutput);
 }
 
-- (instancetype)initWithHTMLString:(NSString *)htmlString {
+- (instancetype)initWithHTMLString:(NSString *)htmlString
+{
     self = [super init];
     if (self) {
         _gumboOutput = gumbo_parse([htmlString UTF8String]);
@@ -243,7 +268,8 @@ id OCGumboNodeCast(GumboNode *node) {
 }
 
 #pragma mark - Properties
-- (NSString *)title {
+- (NSString *)title
+{
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_TITLE);
     if (node && node->v.element.children.length) {
         GumboNode *text = node->v.element.children.data[0];
@@ -254,28 +280,34 @@ id OCGumboNodeCast(GumboNode *node) {
     return nil;
 }
 
-- (BOOL)hasDoctype {
+- (BOOL)hasDoctype
+{
     return _gumboNode->v.document.has_doctype;
 }
 
-- (NSString *)publicID {
+- (NSString *)publicID
+{
     return @(_gumboNode->v.document.public_identifier);
 }
 
-- (NSString *)systemID {
+- (NSString *)systemID
+{
     return @(_gumboNode->v.document.system_identifier);
 }
 
-- (OCGumboElement *)rootElement {
+- (OCGumboElement *)rootElement
+{
     return OCGumboNodeCast(_gumboOutput->root);
 }
 
-- (OCGumboElement *)head {
+- (OCGumboElement *)head
+{
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_HEAD);
     return OCGumboNodeCast(node);
 }
 
-- (OCGumboElement *)body {
+- (OCGumboElement *)body
+{
     GumboNode *node = oc_gumbo_get_first_element_by_tag(_gumboNode, GUMBO_TAG_BODY);
     return OCGumboNodeCast(node);
 }
@@ -287,7 +319,8 @@ id OCGumboNodeCast(GumboNode *node) {
     GumboAttribute *_gumboAttribute;
 }
 
-- (instancetype)initWithGumboAttribute:(GumboAttribute *)attribute {
+- (instancetype)initWithGumboAttribute:(GumboAttribute *)attribute
+{
     self = [super init];
     if (self) {
         _gumboAttribute = attribute;
@@ -295,24 +328,29 @@ id OCGumboNodeCast(GumboNode *node) {
     return self;
 }
 
-+ (instancetype)attributeWithGumboAttribute:(GumboAttribute *)attribute {
++ (instancetype)attributeWithGumboAttribute:(GumboAttribute *)attribute
+{
     return [[OCGumboAttribute alloc] initWithGumboAttribute:attribute];
 }
 
-id OCGumboAttributeCast(GumboAttribute *attribute) {
+id OCGumboAttributeCast(GumboAttribute *attribute)
+{
     return [OCGumboAttribute attributeWithGumboAttribute:attribute];
 }
 
-- (NSString *)description {
+- (NSString *)description
+{
     return [NSString stringWithFormat:@"<%@ %p %@=%@>", [self class], self, self.name, self.value];
 }
 
 #pragma mark - Properties
-- (NSString *)name {
+- (NSString *)name
+{
     return @(_gumboAttribute->name);
 }
 
-- (NSString *)value {
+- (NSString *)value
+{
     return @(_gumboAttribute->value);
 }
 

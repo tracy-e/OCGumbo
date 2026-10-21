@@ -13,26 +13,27 @@
 //  limitations under the License.
 
 #if !__has_feature(objc_arc)
-    #error OCGumbo must be built with ARC.
+#error OCGumbo must be built with ARC.
 #endif
 
-//please add gumbo(https://github.com/google/gumbo-parser/tree/master/src) sources or lib to the project.
+// Please add the gumbo sources (https://github.com/google/gumbo-parser/tree/master/src)
+// or link a prebuilt libgumbo before compiling OCGumbo.
 #include "gumbo.h"
 #import <Foundation/Foundation.h>
 
-//for OCGumbo+Query.
+// For OCGumbo+Query.
 id OCGumboNodeCast(GumboNode *node);
 id OCGumboAttributeCast(GumboAttribute *attribute);
 
 #pragma mark -
 @interface OCGumboNode : NSObject {
-  @public
-    GumboNode *_gumboNode;  //public for OCGumbo+Query.
+@public
+    GumboNode *_gumboNode; //public for OCGumbo+Query.
 }
 
 @property (nonatomic, copy, readonly) NSString *nodeName;
 @property (nonatomic, copy, readonly) NSString *nodeValue;
-@property (nonatomic, readonly) GumboNodeType   nodeType;
+@property (nonatomic, readonly) GumboNodeType nodeType;
 
 @property (nonatomic, readonly) NSArray *childNodes;
 @property (nonatomic, readonly) OCGumboNode *parentNode;
