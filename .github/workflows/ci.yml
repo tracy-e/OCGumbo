@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test (SwiftPM)
+    runs-on: macos-latest
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Show toolchain
+        run: |
+          swift --version
+          xcodebuild -version
+
+      - name: Build
+        run: swift build
+
+      - name: Test
+        run: swift test
