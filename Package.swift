@@ -20,6 +20,10 @@ let package = Package(
         .library(
             name: "OCGumbo",
             targets: ["OCGumbo"]
+        ),
+        .library(
+            name: "OCGumboSwift",
+            targets: ["OCGumboSwift"]
         )
     ],
     targets: [
@@ -34,6 +38,7 @@ let package = Package(
             path: ".",
             exclude: [
                 "Tests",
+                "Sources/OCGumboSwift",
                 "OCGumbo/OCGumbo.h",
                 "OCGumbo/OCGumbo.m",
                 "OCGumbo/OCGumbo+Query.h",
@@ -60,6 +65,16 @@ let package = Package(
                 "OCGumbo+Query.m"
             ],
             publicHeadersPath: "."
+        ),
+
+        // The Swift overlay.  It depends on the Objective-C target and adds
+        // Swift-only conveniences (Sequence/Collection conformance, attribute
+        // subscripts and typed query helpers) without touching the Objective-C
+        // API or its selectors.
+        .target(
+            name: "OCGumboSwift",
+            dependencies: ["OCGumbo"],
+            path: "Sources/OCGumboSwift"
         ),
 
         .testTarget(
